@@ -7,7 +7,6 @@
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
   <link rel="stylesheet" href="css/map.css" />
-  <link rel="stylesheet" href="logpullerstyle.css" />
 
   <style>
     :root { --bg:#0f1720; --panel:#0b1220; --muted:#9aa4b2; --accent:#7dd3fc; }
@@ -99,6 +98,16 @@
       background: rgba(5,10,18,0.92);
       border: 1px solid rgba(255,255,255,0.1);
     }
+
+    .arrow-icon{
+       display:flex;
+       align-items:center;
+       justify-content:center;
+       line-height:1;              
+       pointer-events:none;
+       transform-origin:center center;
+       text-shadow:0 0 2px #000;  
+     }
     
     .tip-ord { color: var(--accent); font-weight: 700; margin-bottom: 2px; }
     .tip-name { font-weight: 600; }
@@ -1069,10 +1078,9 @@
     const s0 = timeToSec(start) - exSec;
     const e0 = timeToSec(end)   + exSec;
   
-    const byPlayer = new Map(); // victimName -> [{t, line}]
+    const byPlayer = new Map();
   
     for (const raw of window._rawLines) {
-      // match any hit line
       let m = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
       if (!m) continue;
   
@@ -1081,9 +1089,8 @@
       const t = timeToSec(tStr);
       if (t < s0 || t > e0) continue;
   
-      // victim is capture group 2 for all three patterns we use
       const victimName = m[2];
-      if (!sel.has(victimName)) continue; // ONLY show damage received by selected players
+      if (!sel.has(victimName)) continue;
   
       const cleaned = stripIds(raw);
       if (!byPlayer.has(victimName)) byPlayer.set(victimName, []);
