@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DayZRP ADM Log Handler</title>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
   <link rel="stylesheet" href="css/map.css" />
 
@@ -64,7 +63,7 @@
     #playerList{ overflow-y:auto; overflow-x:hidden; display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:10px 18px; flex:1; padding-top:4px; }
     .player-entry{ display:flex; align-items:center; gap:9px; cursor:pointer; font-size:1.02rem; color:var(--muted); padding:7px 9px; border-radius:8px; line-height:1.2; min-width:0; transition:all .2s ease; white-space:nowrap; }
     .player-entry:hover{background:rgba(255,255,255,0.05); color:var(--accent);}
-    .player-entry input[type="checkbox"]{ accent-color:var(--accent); cursor:pointer; transform:scale(1.25); flex:0 0 auto; }
+    .player-entry [type="checkbox"]{ accent-color:var(--accent); cursor:pointer; transform:scale(1.25); flex:0 0 auto; }
     .player-entry span{ display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
     .color-swatch{ appearance:none; -webkit-appearance:none; width:17px; height:17px; flex:0 0 17px; border:2px solid rgba(255,255,255,0.25); border-radius:4px; padding:0; margin:0; cursor:pointer; background:transparent; box-sizing:content-box; display:block; }
     .color-swatch::-webkit-color-swatch-wrapper{padding:0;}
@@ -76,9 +75,10 @@
       border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:14px; }
     #logPuller h2 { margin:0 0 6px; font-size:1.15rem; }
     .lp-section { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:10px; }
+    .lp-section input[type="checkbox"]{accent-color:var(--accent);transform:scale(1.15);vertical-align:middle;position:relative;top:1px}
     .lp-row { display:flex; gap:8px; align-items:center; }
     .lp-label { color:var(--muted); font-weight:600; font-size:1rem; }
-    .lp-checks { display:flex; flex-direction:column; gap:10px; }
+    .lp-checks input[type="checkbox"]{transform:scale(1.15);accent-color:var(--accent);vertical-align:middle;position:relative;top:1px}
     .lp-checks label { display:flex; gap:10px; align-items:center; color:var(--muted); cursor:pointer; }
     .lp-checks input[type="checkbox"] { transform:scale(1.15); accent-color: var(--accent); }
     .btn.place { padding:11px 13px; }
@@ -99,15 +99,15 @@
       border: 1px solid rgba(255,255,255,0.1);
     }
 
-    .arrow-icon{
-       display:flex;
-       align-items:center;
-       justify-content:center;
-       line-height:1;              
-       pointer-events:none;
-       transform-origin:center center;
-       text-shadow:0 0 2px #000;  
-     }
+      .arrow-icon{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        line-height:1;               /* avoid extra vertical space from fonts */
+        pointer-events:none;
+        transform-origin:center center;
+        text-shadow:0 0 2px #000;    /* optional: like before */
+      }
     
     .tip-ord { color: var(--accent); font-weight: 700; margin-bottom: 2px; }
     .tip-name { font-weight: 600; }
@@ -122,7 +122,7 @@
 
     footer{margin-top:20px; color:var(--muted); font-size:1rem; text-align:center;}
 
-    .logs-wrap{width:100%;margin-top:24px;}
+    .logs-wrap{width:100%;}
     .logs-title{
       width:100%;
       text-align:center;
@@ -181,8 +181,8 @@
     <header>
       <h1>DayZRP ADM Log Handler</h1>
       <div class="controls">
-        <label class="btn" for="admLogInput">📁 Upload ADM Log</label>
-        <input id="admLogInput" type="file" accept=".adm,.txt,.log" />
+        <label class="btn" for="admLogInput">📁 Upload Up To 3 ADM Logs</label>
+        <input id="admLogInput" type="file" accept=".adm,.txt,.log" multiple />
         <button class="btn" id="fitBtn">Fit</button>
         <select id="startTime"><option>Start Time</option></select>
         <select id="endTime"><option>End Time</option></select>
@@ -191,9 +191,10 @@
 
     <div class="filters">
       <label><input type="checkbox" id="chkMarkers" checked>Markers</label>
-      <label><input type="checkbox" id="chkPaths" checked>Paths</label>
-      <label><input type="checkbox" id="chkHits" checked>Hits</label>
-      <label><input type="checkbox" id="chkKills" checked>Kills</label>
+      <label><input type="checkbox" id="chkPaths">Paths</label>
+      <label><input type="checkbox" id="chkHits">Hits</label>
+      <label><input type="checkbox" id="chkKills">Kills</label>
+      <label><input type="checkbox" id="chkHidePVE">Hide PVE</label>
     </div>
 
     <div class="panel">
@@ -242,6 +243,21 @@
             <label><input type="checkbox" id="chkChatLogs">Chat Logs</label>
             <label><input type="checkbox" id="chkHitLogs">Hit Logs</label>
             <label><input type="checkbox" id="chkKillLogs">Kill Logs</label>
+            <label><input type="checkbox" id="chkBuildLogs">Building/Placement Logs</label>
+          </div>
+        </section>
+
+        <section class="lp-section" aria-label="Expansion Logs">
+          <div class="lp-label">Expansion Logs (Optional)</div>
+          <div class="lp-checks">
+            <label><input type="checkbox" id="chkVehLogs">Vehicle Logs</label>
+            <label><input type="checkbox" id="chkRaidLogs">Raiding Logs</label>
+            <label><input type="checkbox" id="chkMarketLogs">Market Logs</label>
+          </div>
+        
+          <div class="lp-row">
+            <label class="btn" for="expLogInput">📁 Upload Expansion Logs</label>
+            <input id="expLogInput" type="file" accept=".txt,.log" multiple />
           </div>
         </section>
 
@@ -253,6 +269,17 @@
             <option value="1h">1 Hour</option>
             <option value="2h">2 Hours</option>
           </select>
+        </section>
+
+        <section class="lp-section" aria-label="Options">
+          <label class="lp-row" style="justify-content:space-between; cursor:pointer;">
+          <span class="lp-label">Chronological Hit/Kill</span>
+          <input type="checkbox" id="chkChronoHK">
+          </label>
+          <label class="lp-row" style="justify-content:space-between; cursor:pointer;">
+          <span class="lp-label">Ignore Non PVP Hit/Kill</span>
+          <input type="checkbox" id="chkIgnoreNonPVP">
+          </label>
         </section>
 
         <button class="btn pull" id="btnPull">Pull!</button>
@@ -282,6 +309,24 @@
           <button class="acc-head">KILL LOGS</button>
           <div class="acc-body" id="logs-kill"><em>No data yet.</em></div>
         </div>
+        <div class="acc-item" data-log="build">
+          <button class="acc-head">BUILDING/PLACEMENT LOGS</button>
+          <div class="acc-body" id="logs-build"><em>No data yet.</em></div>
+        </div>
+        <div class="acc-item" data-log="veh">
+          <button class="acc-head">VEHICLE LOGS</button>
+          <div class="acc-body" id="logs-veh"><em>No data yet.</em></div>
+        </div>
+        
+        <div class="acc-item" data-log="raid">
+          <button class="acc-head">RAIDING LOGS</button>
+          <div class="acc-body" id="logs-raid"><em>No data yet.</em></div>
+        </div>
+        
+        <div class="acc-item" data-log="market">
+          <button class="acc-head">MARKET LOGS</button>
+          <div class="acc-body" id="logs-market"><em>No data yet.</em></div>
+        </div>
       </div>
     </div>
 
@@ -297,9 +342,12 @@
   <script>
     let map;
     let admEntries = [];
+    let expansionLines = []; 
     let damageEvents = [];
     let killEvents = [];
-    let filteredPlayers = [];
+    let filteredPlayers = [];         
+    let lastAdmFileNames = [];          
+    let lastExpansionFileNames = [];  
     const playerColors = {};
     const selectedPlayers = new Set();
     const connectionLines = [];
@@ -370,11 +418,45 @@
     }
     
     function handleADMUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => parseADMLog(reader.result);
-      reader.readAsText(file);
+      const files = Array.from(e.target.files || []);
+      lastAdmFileNames = files.map(f => f.name);
+      if (files.length > 3) {
+        alert("You can only upload up to 3 log files at once.");
+        e.target.value = '';
+        return;
+      } 
+      if (!files.length) return;
+      files.sort((a, b) => a.name.localeCompare(b.name) || (a.lastModified - b.lastModified));    
+      Promise.all(files.map(f => f.text()))
+        .then(texts => {
+          const merged = texts
+            .map(t => t.replace(/\r\n?/g, '\n'))
+            .join('\n');
+          parseADMLog(merged);
+        })
+        .catch(err => {
+          console.error('Failed to read files:', err);
+          alert('There was a problem reading one or more files.');
+        });
+    }
+
+    function handleExpansionUpload(e){
+      const files = Array.from(e.target.files || []);
+      lastExpansionFileNames = files.map(f => f.name);
+      if (!files.length) { expansionLines = []; return; }
+    
+      files.sort((a, b) => a.name.localeCompare(b.name) || (a.lastModified - b.lastModified));
+      Promise.all(files.map(f => f.text()))
+        .then(texts => {
+          const merged = texts.map(t => t.replace(/\r\n?/g, '\n')).join('\n');
+          expansionLines = merged.split('\n').map(l => l.replace(/\r$/, ''));
+        })
+        .catch(err => {
+          console.error('Failed to read expansion files:', err);
+          alert('There was a problem reading one or more expansion log files.');
+          expansionLines = [];
+          e.target.value = '';
+        });
     }
 
     function fitMap() {
@@ -391,6 +473,7 @@
       document.getElementById('fitBtn').addEventListener('click', fitMap);
       document.getElementById('playerSearch').addEventListener('input', filterPlayerList);
       document.getElementById('admLogInput').addEventListener('change', handleADMUpload);
+      document.getElementById('expLogInput').addEventListener('change', handleExpansionUpload);
 
       document.getElementById('startTime').addEventListener('change', () => {
         updateEndTimeOptions();
@@ -418,7 +501,7 @@
         filterPlayerList();
       });
 
-      ['chkMarkers','chkPaths','chkHits','chkKills'].forEach(id => {
+      ['chkMarkers','chkPaths','chkHits','chkKills','chkHidePVE'].forEach(id => {
         document.getElementById(id).addEventListener('change', refreshMapLayers);
       });
       
@@ -470,8 +553,51 @@
         } else {
           document.getElementById('logs-chat').innerHTML = '<em>No data requested.</em>';
         }
+
+        // Building/Placement
+        if (document.getElementById('chkBuildLogs').checked) {
+          renderBuildLogs();
+        } else {
+          document.getElementById('logs-build').innerHTML = '<em>No data requested.</em>';
+        }
+        
+      const wantsVeh    = document.getElementById('chkVehLogs').checked;
+      const wantsRaid   = document.getElementById('chkRaidLogs').checked;
+      const wantsMarket = document.getElementById('chkMarketLogs').checked;
+      
+      if ((wantsVeh || wantsRaid || wantsMarket) && (!expansionLines || !expansionLines.length)) {
+        alert('Please upload expansion logs matching currently selected timeframe');
+        if (wantsVeh)    document.getElementById('logs-veh').innerHTML    = '<em>No expansion logs uploaded.</em>';
+        if (wantsRaid)   document.getElementById('logs-raid').innerHTML   = '<em>No expansion logs uploaded.</em>';
+        if (wantsMarket) document.getElementById('logs-market').innerHTML = '<em>No expansion logs uploaded.</em>';
+        return;
+      }
+      
+      // WARN: Hours overlap check (ADM window hours vs Expansion file hours)
+      if (wantsVeh || wantsRaid || wantsMarket){
+        const admHours = hourSetFromAdmWindow();
+        const expHours = hourSetFromLines(expansionLines);
+        if (admHours.size && expHours.size && !hasAnyHourOverlap(admHours, expHours)){
+          alert('CAUTION ADM Hours do not fully match the expansion logs uploaded. Double check the file name or upload the Expansion log before and after this one as well.');
+        }
+      
+        // WARN: Date mismatch by filenames
+        const admDates = new Set(lastAdmFileNames.map(dateFromAdmName).filter(Boolean));
+        const expDates = new Set(lastExpansionFileNames.map(dateFromExpansionName).filter(Boolean));
+        if (admDates.size && expDates.size){
+          let common = false;
+          for (const d of admDates) if (expDates.has(d)) { common = true; break; }
+          if (!common){
+            alert('WARNING Expansion date and ADM date do not match! This may be normal if around a server restart, please doublecheck your work!');
+          }
+        }
+      }
+      
+      if (wantsVeh)    renderVehicleLogs();  else document.getElementById('logs-veh').innerHTML    = '<em>No data requested.</em>';
+      if (wantsRaid)   renderRaidingLogs();  else document.getElementById('logs-raid').innerHTML   = '<em>No data requested.</em>';
+      if (wantsMarket) renderMarketLogs();   else document.getElementById('logs-market').innerHTML = '<em>No data requested.</em>';
       });
-   });
+    });
     
     // Parsing
     const POS_LINE_RE   = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"(?:\s*\(DEAD\))?\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*(?:\[\s*HP:\s*([^\]]+)\s*\])?\s*$/;
@@ -482,6 +608,34 @@
     const CHAT_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*\[Chat\s*-\s*[^\]]+\]\("([^"]+)"\(id=[^)]+\)\):\s*(.*)$/;
     const CONNECT_RE    = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\(id=[^)]+\)\s*is connected\s*$/;
     const DISCONNECT_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\(id=[^)]+\)\s*has been disconnected\s*$/;
+    const BUILD_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*Built\s+(.+)$/i;
+    const PLACE_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*placed\s+(.+)$/i;
+    const VEH_ENTER_RE   = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[VehicleEnter\]\s+Player\s+"([^"]+)"[^(]*entered vehicle\s+([^()]+)\s+\(id=[^)]+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*>\)\s+as\s+(\w+)/;
+    const VEH_LEAVE_RE   = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[VehicleLeave\]\s+Player\s+"([^"]+)"[^(]*left vehicle\s+([^()]+)\s+\(id=[^)]+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*>\)/;
+    const VEH_ENGINE_RE  = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[VehicleEngine\]\s+Player\s+"([^"]+)"[^(]*\s+(started|stopped)\s+vehicle\s+([^()]+)\s+\(id=[^)]+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*>\)/;
+    const VEH_KEY_RE     = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[VehicleCarKey\]\s+Player\s+"([^"]+)"\s+\(id=[^)]+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*>\)\s+used\s+ExpansionCarKey\s+to\s+(lock|unlock)\s+([^(]+)\s+\(id=[^)]+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*>\)/;
+    const VEH_PICK_RE    = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[VehicleLockPick\]\s+Player\s+"([^"]+)"\s+\(id=[^)]+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*>\)\s+(is attempting to pick lock on|picked lock on)\s+([^(]+)\s+\(id=[^)]+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*>\)\s+with\s+Lockpick/;
+    const RAID_BUILD_RE  = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[BaseBuildingRaiding\]\s+Player\s+"([^"]+)"\s+\(id=[^)]+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*>\)\s+damaged\s+([^]+?)\s+at\s+<\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*>/i;
+    const RAID_CODE_RE   = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[BaseRaiding\]\s+([^()]+)\s+\(<\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*>\)\s+Damaged\s+"player\s+"([^"]+)"[^"]*"\s+by\s+([\d.\-]+)\s+health points\.\s*Reason:\s*(.+)$/i;
+    const MARKET_BUY_RE  = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[Market\]\s+Player\s+"([^"]+)"\s+\(id=[^)]+\)\s+has bought\s+([^\s]+)\s+x\d+\s+\([^)]+\)\s+from the trader\s+"([^"]+)"\s+in market zone\s+"([^"]+)"\s+\(pos=<\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*>\)\s+for a price of\s+([\d.\-]+)\./i;
+    const MARKET_SELL_RE = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[Market\]\s+Player\s+"([^"]+)"\s+\(id=[^)]+\)\s+has sold\s+([^\s]+)\s+x\d+\s+\([^)]+\)\s+at the trader\s+"([^"]+)"\s+in market zone\s+"([^"]+)"\s+\(pos=<\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*>\)\s+and got\s+([\d.\-]+)\./i;
+    
+    function lineTimeMs(line){
+      const m = line.match(/^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)/);
+      return m ? m[1] : null;
+    }
+    function timeToMs(t){
+      const [h,m,rest] = t.split(':');
+      const [s, ms='0'] = rest.split('.');
+      return (+h)*3600000 + (+m)*60000 + (+s)*1000 + (+ms);
+    }
+    
+    function posChunk(x,y,z){
+      const inside = !!(currentRadiusCircle && currentRadiusCenter && currentRadiusMeters && distXY({x:+x, y:+y}, currentRadiusCenter) <= currentRadiusMeters);
+      const txt = `${(+x).toFixed(2)}, ${(+y).toFixed(2)}, ${(+z).toFixed(2)}`;
+      return inside ? `<span class="hl-pos">${txt}</span>` : txt;
+    }
+
 
     function parseADMLog(text) {
       admEntries = [];
@@ -698,15 +852,69 @@
     function stripIds(line){
       return line.replace(/\(id=[^)]+\)/g, '').replace(/\s{2,}/g, ' ');
     }
+    
     function lineTime(line){
       const m = line.match(/^(\d{2}:\d{2}:\d{2})\s*\|/);
       return m ? m[1] : null;
     }
+    
     function extraWindowSecs(){
       const v = document.getElementById('timeframeSelect').value;
       if (v.endsWith('m')) return parseInt(v)*60;
       if (v.endsWith('h')) return parseInt(v)*3600;
       return 0;
+    }
+    
+    function trimMs(ts){ return ts.replace(/\.\d{3}$/,''); }       
+    function lineTimeNoMs(line){
+      const m = line.match(/^(\d{2}:\d{2}:\d{2})(?:\.\d{3})?/);
+      return m ? m[1] : null;
+    }
+    function timeToSecNoMs(t){ 
+      const [h,m,s] = t.split(':').map(Number);
+      return h*3600 + m*60 + s;
+    }
+    
+    function hourSetFromLines(lines){
+      const set = new Set();
+      for (const ln of lines){
+        const m = ln.match(/^(\d{2}):\d{2}:\d{2}/);
+        if (m) set.add(m[1]);
+      }
+      return set;
+    }
+
+    function hourSetFromAdmWindow(){
+      if (!window._rawLines) return new Set();
+      const start = document.getElementById('startTime').value || '00:00:00';
+      const end   = document.getElementById('endTime').value   || '23:59:59';
+      const exSec = extraWindowSecs();
+      const s0 = timeToSec(start) - exSec;
+      const e0 = timeToSec(end)   + exSec;
+    
+      const set = new Set();
+      for (const raw of window._rawLines){
+        const t = lineTime(raw);
+        if (!t) continue;
+        const sec = timeToSec(t);
+        if (sec < s0 || sec > e0) continue;
+        set.add(t.slice(0,2)); 
+      }
+      return set;
+    }
+
+    function hasAnyHourOverlap(admHourSet, expHourSet){
+      for (const h of admHourSet) if (expHourSet.has(h)) return true;
+      return false;
+    }
+    
+    function dateFromAdmName(name){
+      const m = name.match(/_(\d{4}-\d{2}-\d{2})(?:_|\.ADM$)/i);
+      return m ? m[1] : null;
+    }
+    function dateFromExpansionName(name){
+      const m = name.match(/_(\d{4}-\d{2}-\d{2})_/i);
+      return m ? m[1] : null;
     }
 
     // Radius Select
@@ -776,27 +984,28 @@
     // Rendering
     function refreshMapLayers() {
       if (inDamageFocus) return;
-
+    
       layers.markers.clearLayers();
       layers.paths.clearLayers();
       layers.arrows.clearLayers();
       layers.hits.clearLayers();
       layers.kills.clearLayers();
       layers.focus.clearLayers();
-
+    
       const showMarkers = document.getElementById('chkMarkers').checked;
       const showPaths   = document.getElementById('chkPaths').checked;
       const showHits    = document.getElementById('chkHits').checked;
       const showKills   = document.getElementById('chkKills').checked;
-
+      const hidePVE     = document.getElementById('chkHidePVE').checked;
+    
       const start = document.getElementById('startTime').value;
       const end   = document.getElementById('endTime').value;
       const selected = new Set(getSelectedPlayers());
       if (!selected.size) return;
-
+    
       const { markerRadius, pathWeight, arrowSize, starSize, skullSize } = sizesForZoom(map.getZoom());
-
-      // Paths + Markers Handler
+    
+      // --- Paths position markers ---
       const bucket = {};
       admEntries.forEach(e => {
         if (e.time < start || e.time > end) return;
@@ -804,20 +1013,25 @@
         (bucket[e.name] ??= []).push(e);
       });
       Object.values(bucket).forEach(arr => arr.sort((a,b) => a.time.localeCompare(b.time)));
-
+    
       Object.keys(bucket).forEach(name => {
         const entries = bucket[name];
         const N = entries.length;
         const color = playerColors[name] || '#ff4d4d';
-
+    
+        // dot markers
         if (showMarkers) {
           entries.forEach((e, idx) => {
             const latlng = L.latLng(e.y, e.x);
             const m = L.circleMarker(latlng, {
-              pane: panes.markers, radius: markerRadius,
-              color, weight: Math.max(1, pathWeight - 0.4), opacity: 1, fillOpacity: 0.6
+              pane: panes.markers,
+              radius: markerRadius,
+              color,
+              weight: Math.max(1, pathWeight - 0.4),
+              opacity: 1,
+              fillOpacity: 0.6
             }).addTo(layers.markers);
-
+    
             const tipHTML = `
               <div class="tip-ord">${idx+1}/${N}</div>
               <div class="tip-name">${name}</div>
@@ -827,45 +1041,51 @@
             m.bindTooltip(tipHTML, { direction:'top', sticky:true, opacity:1, className:'marker-tip', offset:L.point(0,-8) });
           });
         }
-
+    
         const pts = entries.map(e => L.latLng(e.y, e.x));
         if (showPaths && pts.length >= 2) {
           L.polyline(pts, { pane: panes.paths, color, weight: pathWeight, opacity: 0.95, interactive:false }).addTo(layers.paths);
-
+    
           for (let i = 1; i < pts.length; i++) {
             const from = pts[i-1], to = pts[i];
             if (from.equals(to)) continue;
-            const cssAngle = (Arma3Map.bearing(from, to) - 90);
-            const mid = segmentMidpoint(from, to);
+    
+            const cssAngle = (Arma3Map.bearing(from, to) - 90); 
+            const mid = L.latLng((from.lat + to.lat)/2, (from.lng + to.lng)/2);
             const size = Math.round(arrowSize), half = Math.round(size/2);
+    
             const arrow = L.divIcon({
               className: '',
               html: `<div class="arrow-icon" style="transform: rotate(${cssAngle}deg); font-size:${size}px; width:${size}px; height:${size}px;">➤</div>`,
-              iconSize:[size,size], iconAnchor:[half,half]
+              iconSize:[size,size],
+              iconAnchor:[half,half]
             });
             L.marker(mid, { pane: panes.arrows, icon: arrow, interactive:false }).addTo(layers.arrows);
           }
         }
       });
-
-      // Hits Handler
+    
       if (showHits) {
-        const hitsInWindow = damageEvents.filter(d => d.time >= start && d.time <= end && selected.has(d.victim.name));
-
+        const hitsInWindow = damageEvents.filter(d =>
+          d.time >= start && d.time <= end &&
+          selected.has(d.victim.name) &&
+          (!hidePVE || d.kind === 'pvp')
+        );
+    
         hitsInWindow.forEach(evt => {
           const vColor = playerColors[evt.victim.name] || '#ff4d4d';
           const iconSize = Math.round(starSize), half = Math.round(iconSize/2);
-
+    
           const star = L.divIcon({
             className: '',
             html: `<div class="star-icon" style="color:${vColor}; font-size:${iconSize}px; width:${iconSize}px; height:${iconSize}px;">✴</div>`,
             iconSize: [iconSize, iconSize],
             iconAnchor: [half, half]
           });
-
+    
           const marker = L.marker([evt.victim.y, evt.victim.x], { pane: panes.damage, icon: star, bubblingMouseEvents:false })
             .addTo(layers.hits);
-
+    
           let tip;
           if (evt.kind === 'pvp') {
             tip = `
@@ -886,7 +1106,7 @@
             `;
           }
           marker.bindTooltip(tip, { direction:'top', sticky:true, opacity:1, className:'marker-tip', offset:L.point(0,-8) });
-
+    
           if (evt.kind === 'pvp') {
             marker.on('click', () => enterDamageFocus({
               type: 'hit',
@@ -896,25 +1116,29 @@
           }
         });
       }
-
-      // Kills Handler
+    
+      // Kills
       if (showKills) {
-        const killsInWindow = killEvents.filter(k => k.time >= start && k.time <= end && (selected.has(k.victim.name) || selected.has(k.attacker.name)));
-
+        const killsInWindow = killEvents.filter(k =>
+          k.time >= start && k.time <= end &&
+          (selected.has(k.victim.name) || selected.has(k.attacker.name)) &&
+          (!hidePVE || !k.kind || k.kind === 'pvp') // future-proof if we ever tag non-PVP kills
+        );
+    
         killsInWindow.forEach(evt => {
           const vColor = playerColors[evt.victim.name] || '#ff4d4d';
           const size = Math.round(skullSize), half = Math.round(size/2);
-
+    
           const skull = L.divIcon({
             className: '',
             html: `<div class="skull-icon" style="color:${vColor}; font-size:${size}px; width:${size}px; height:${size}px;">☠</div>`,
             iconSize: [size, size],
             iconAnchor: [half, half]
           });
-
+    
           const m = L.marker([evt.victim.y, evt.victim.x], { pane: panes.kills, icon: skull, bubblingMouseEvents:false })
             .addTo(layers.kills);
-
+    
           const tip = `
             <div class="tip-name">${evt.victim.name} <span style="color:#bbb">killed by</span> ${evt.attacker.name}</div>
             <div class="tip-time">${evt.time}</div>
@@ -922,7 +1146,7 @@
             <div>Position: <span class="tip-coord">${coordsHTML(evt.victim.x, evt.victim.y, evt.victim.z)}</span></div>
           `;
           m.bindTooltip(tip, { direction:'top', sticky:true, opacity:1, className:'marker-tip', offset:L.point(0,-8) });
-
+    
           m.on('click', () => enterDamageFocus({
             type: 'kill',
             victim: evt.victim,
@@ -1078,11 +1302,43 @@
     const s0 = timeToSec(start) - exSec;
     const e0 = timeToSec(end)   + exSec;
   
-    const byPlayer = new Map();
+    const chronological =
+      document.getElementById('chkChronologicalHK')?.checked === true ||
+      document.getElementById('chkChronoHK')?.checked === true;
+    const ignoreNonPVP = document.getElementById('chkIgnoreNonPVP')?.checked === true;
   
+    if (chronological) {
+      const allLines = [];
+      for (const raw of window._rawLines) {
+        const m = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
+        if (!m) continue;
+  
+        if (ignoreNonPVP && !raw.includes('hit by Player')) continue;
+  
+        const tStr = lineTime(raw);
+        if (!tStr) continue;
+        const t = timeToSec(tStr);
+        if (t < s0 || t > e0) continue;
+  
+        const victimName = m[2];
+        if (!sel.has(victimName)) continue;
+  
+        allLines.push({ t, line: stripIds(raw) });
+      }
+  
+      allLines.sort((a,b)=>a.t-b.t);
+      outEl.innerHTML = allLines.length
+        ? `<pre class="mono">${allLines.map(x=>x.line).join('\n')}</pre>`
+        : '<em>No matching hit logs in the selected window.</em>';
+      return;
+    }
+  
+    const byPlayer = new Map();
     for (const raw of window._rawLines) {
-      let m = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
+      const m = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
       if (!m) continue;
+  
+      if (ignoreNonPVP && !raw.includes('hit by Player')) continue;
   
       const tStr = lineTime(raw);
       if (!tStr) continue;
@@ -1123,11 +1379,43 @@
     const s0 = timeToSec(start) - exSec;
     const e0 = timeToSec(end)   + exSec;
   
-    const byPlayer = new Map(); // victimName -> [{t, line}]
+    const chronological =
+      document.getElementById('chkChronologicalHK')?.checked === true ||
+      document.getElementById('chkChronoHK')?.checked === true;
+    const ignoreNonPVP = document.getElementById('chkIgnoreNonPVP')?.checked === true;
   
+    if (chronological) {
+      const allLines = [];
+      for (const raw of window._rawLines) {
+        const m = raw.match(KILL_PVP_RE);
+        if (!m) continue;
+  
+        if (ignoreNonPVP && !raw.includes('killed by Player')) continue;
+  
+        const tStr = lineTime(raw);
+        if (!tStr) continue;
+        const t = timeToSec(tStr);
+        if (t < s0 || t > e0) continue;
+  
+        const victimName = m[2];
+        if (!sel.has(victimName)) continue;
+  
+        allLines.push({ t, line: stripIds(raw) });
+      }
+  
+      allLines.sort((a,b)=>a.t-b.t);
+      outEl.innerHTML = allLines.length
+        ? `<pre class="mono">${allLines.map(x=>x.line).join('\n')}</pre>`
+        : '<em>No matching kill logs in the selected window.</em>';
+      return;
+    }
+  
+    const byPlayer = new Map(); 
     for (const raw of window._rawLines) {
       const m = raw.match(KILL_PVP_RE);
       if (!m) continue;
+  
+      if (ignoreNonPVP && !raw.includes('killed by Player')) continue;
   
       const tStr = lineTime(raw);
       if (!tStr) continue;
@@ -1135,7 +1423,7 @@
       if (t < s0 || t > e0) continue;
   
       const victimName = m[2];
-      if (!sel.has(victimName)) continue; // only show kills where selected player was victim
+      if (!sel.has(victimName)) continue;
   
       const cleaned = stripIds(raw);
       if (!byPlayer.has(victimName)) byPlayer.set(victimName, []);
@@ -1155,7 +1443,7 @@
       ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
       : '<em>No matching kill logs in the selected window.</em>';
   }
-    
+  
   function renderChatLogs() {
     const outEl = document.getElementById('logs-chat');
     outEl.innerHTML = '';
@@ -1186,6 +1474,343 @@
       ? `<pre class="mono">${sections.join('\n')}</pre>`
       : '<em>No matching chat logs in the selected window.</em>';
   }
+    
+  function renderBuildLogs(){
+    const outEl = document.getElementById('logs-build');
+    const sel = new Set(getSelectedPlayers());
+    if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
+    if (!window._rawLines) { outEl.innerHTML = '<em>No data yet.</em>'; return; }
+  
+    const start = document.getElementById('startTime').value || '00:00:00';
+    const end   = document.getElementById('endTime').value   || '23:59:59';
+    const exSec = extraWindowSecs();
+    const s0 = timeToSec(start) - exSec;
+    const e0 = timeToSec(end)   + exSec;
+  
+    const byPlayer = new Map();
+  
+    for (const raw of window._rawLines) {
+      let m = raw.match(BUILD_RE) || raw.match(PLACE_RE);
+      if (!m) continue;
+  
+      const tStr = m[1];
+      const name = m[2];
+      const x    = +m[4];
+      const y    = +m[5];
+      const z    = +m[6];
+      let action = m[7];
+  
+      if (!sel.has(name)) continue;
+  
+      const t = timeToSec(tStr);
+      if (t < s0 || t > e0) continue;
+  
+      action = action.replace(/</, ' <');
+  
+      const inside = !!(currentRadiusCircle && currentRadiusCenter && currentRadiusMeters &&
+                        distXY({ x, y }, currentRadiusCenter) <= currentRadiusMeters);
+      const coordsText = `${x.toFixed(1)}, ${y.toFixed(1)}, ${z.toFixed(1)}`;
+      const coordsHTML = inside ? `<span class="hl-pos">${coordsText}</span>` : coordsText;
+      const line = `${tStr} | Player "${name}" (pos=<${coordsHTML}>) ${raw.match(BUILD_RE) ? 'Built' : 'placed'} ${action}`;
+  
+      if (!byPlayer.has(name)) byPlayer.set(name, []);
+      byPlayer.get(name).push({ t, line });
+    }
+  
+    const chunks = [];
+    [...byPlayer.entries()]
+      .sort((a,b)=> a[0].localeCompare(b[0]))
+      .forEach(([name, arr])=>{
+        arr.sort((a,b)=> a.t - b.t);
+        const lines = arr.map(x => x.line);
+        if (lines.length) {
+          chunks.push(name + '\n' + lines.join('\n'));
+        }
+      });
+  
+    outEl.innerHTML = chunks.length
+      ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
+      : '<em>No matching building/placement logs in the selected window.</em>';
+  }
+
+    function renderVehicleLogs(){
+      const outEl = document.getElementById('logs-veh');
+      const sel = new Set(getSelectedPlayers());
+      if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
+      if (!expansionLines || !expansionLines.length) { outEl.innerHTML = '<em>No expansion logs loaded.</em>'; return; }
+    
+      const start = document.getElementById('startTime').value || '00:00:00';
+      const end   = document.getElementById('endTime').value   || '23:59:59';
+      const exSec = extraWindowSecs();
+      const s0 = timeToSecNoMs(start) - exSec;
+      const e0 = timeToSecNoMs(end)   + exSec;
+    
+      const byPlayer = new Map();
+    
+      for (const raw of expansionLines){
+        let m;
+    
+        // VehicleEnter
+        m = raw.match(VEH_ENTER_RE);
+        if (m){
+          const [_, ts0, name, veh, vx, vy, vz, seat] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleEnter] Player "${name}" entered vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}> as ${seat}`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // VehicleLeave
+        m = raw.match(VEH_LEAVE_RE);
+        if (m){
+          const [_, ts0, name, veh, vx, vy, vz] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleLeave] Player "${name}" left vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // VehicleEngine
+        m = raw.match(VEH_ENGINE_RE);
+        if (m){
+          const [_, ts0, name, action, veh, vx, vy, vz] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleEngine] Player "${name}" ${action} vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // VehicleCarKey
+        m = raw.match(VEH_KEY_RE);
+        if (m){
+          const [_, ts0, name, px, py, pz, action, veh, vx, vy, vz] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleCarKey] Player "${name}" used ExpansionCarKey to ${action} ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // VehicleLockPick
+        m = raw.match(VEH_PICK_RE);
+        if (m){
+          const [_, ts0, name, px, py, pz, action, veh, vx, vy, vz] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleLockPick] Player "${name}" ${action} ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}> with Lockpick`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+      }
+    
+      if (!byPlayer.size){ outEl.innerHTML = '<em>No matching vehicle events in the selected window.</em>'; return; }
+    
+      const chunks = [];
+      [...byPlayer.entries()].sort((a,b)=> a[0].localeCompare(b[0])).forEach(([name, arr])=>{
+        arr.sort((a,b)=> a.t - b.t);
+        chunks.push(`${name}\n${arr.map(x=>x.line).join('\n')}`);
+      });
+      outEl.innerHTML = `<pre class="mono">${chunks.join('\n\n')}</pre>`;
+    }
+    
+    function renderVehicleLogs(){
+      const outEl = document.getElementById('logs-veh');
+      const sel = new Set(getSelectedPlayers());
+      if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
+      if (!expansionLines || !expansionLines.length) { outEl.innerHTML = '<em>No expansion logs loaded.</em>'; return; }
+    
+      const start = document.getElementById('startTime').value || '00:00:00';
+      const end   = document.getElementById('endTime').value   || '23:59:59';
+      const exSec = extraWindowSecs();
+      const s0 = timeToSecNoMs(start) - exSec;
+      const e0 = timeToSecNoMs(end)   + exSec;
+    
+      const byPlayer = new Map();
+    
+      for (const raw of expansionLines){
+        let m;
+    
+        // VehicleEnter
+        m = raw.match(VEH_ENTER_RE);
+        if (m){
+          const [_, ts0, name, veh, vx, vy, vz, seat] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleEnter] Player "${name}" entered vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}> as ${seat}`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // VehicleLeave
+        m = raw.match(VEH_LEAVE_RE);
+        if (m){
+          const [_, ts0, name, veh, vx, vy, vz] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleLeave] Player "${name}" left vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // VehicleEngine
+        m = raw.match(VEH_ENGINE_RE);
+        if (m){
+          const [_, ts0, name, action, veh, vx, vy, vz] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleEngine] Player "${name}" ${action} vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // VehicleCarKey
+        m = raw.match(VEH_KEY_RE);
+        if (m){
+          const [_, ts0, name, px, py, pz, action, veh, vx, vy, vz] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleCarKey] Player "${name}" used ExpansionCarKey to ${action} ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // VehicleLockPick
+        m = raw.match(VEH_PICK_RE);
+        if (m){
+          const [_, ts0, name, px, py, pz, action, veh, vx, vy, vz] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [VehicleLockPick] Player "${name}" ${action} ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}> with Lockpick`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+      }
+    
+      if (!byPlayer.size){ outEl.innerHTML = '<em>No matching vehicle events in the selected window.</em>'; return; }
+    
+      const chunks = [];
+      [...byPlayer.entries()].sort((a,b)=> a[0].localeCompare(b[0])).forEach(([name, arr])=>{
+        arr.sort((a,b)=> a.t - b.t);
+        chunks.push(`${name}\n${arr.map(x=>x.line).join('\n')}`);
+      });
+      outEl.innerHTML = `<pre class="mono">${chunks.join('\n\n')}</pre>`;
+    }
+
+    function renderRaidingLogs(){
+      const outEl = document.getElementById('logs-raid');
+      const sel = new Set(getSelectedPlayers());
+      if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
+      if (!expansionLines || !expansionLines.length) { outEl.innerHTML = '<em>No expansion logs loaded.</em>'; return; }
+    
+      const start = document.getElementById('startTime').value || '00:00:00';
+      const end   = document.getElementById('endTime').value   || '23:59:59';
+      const exSec = extraWindowSecs();
+      const s0 = timeToSecNoMs(start) - exSec;
+      const e0 = timeToSecNoMs(end)   + exSec;
+    
+      const byPlayer = new Map();
+    
+      for (const raw of expansionLines){
+        let m;
+    
+        // BaseBuildingRaiding
+        m = raw.match(RAID_BUILD_RE);
+        if (m){
+          const [_, ts0, name, px, py, pz, target, tx, ty, tz] = m;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [BaseBuildingRaiding] Player "${name}" damaged ${target.trim()} at <${(+tx).toFixed(2)}, ${(+ty).toFixed(2)}, ${(+tz).toFixed(2)}>`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // BaseRaiding
+        m = raw.match(RAID_CODE_RE);
+        if (m){
+          const [_, ts0, objName, ox, oy, oz, pname, dmg, reason] = m;
+          const name = pname;
+          if (!sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [BaseRaiding] ${objName.trim()} (<${(+ox).toFixed(6)}, ${(+oy).toFixed(6)}, ${(+oz).toFixed(6)}>) Damaged player "${name}" by ${dmg} health points. Reason: ${reason}`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+      }
+    
+      if (!byPlayer.size){ outEl.innerHTML = '<em>No matching raiding events in the selected window.</em>'; return; }
+    
+      const chunks = [];
+      [...byPlayer.entries()].sort((a,b)=> a[0].localeCompare(b[0])).forEach(([name, arr])=>{
+        arr.sort((a,b)=> a.t - b.t);
+        chunks.push(`${name}\n${arr.map(x=>x.line).join('\n')}`);
+      });
+      outEl.innerHTML = `<pre class="mono">${chunks.join('\n\n')}</pre>`;
+    }
+    
+    function renderMarketLogs(){
+      const outEl = document.getElementById('logs-market');
+      const sel = new Set(getSelectedPlayers());
+      if (!expansionLines || !expansionLines.length) { outEl.innerHTML = '<em>No expansion logs loaded.</em>'; return; }
+    
+      const start = document.getElementById('startTime').value || '00:00:00';
+      const end   = document.getElementById('endTime').value   || '23:59:59';
+      const exSec = extraWindowSecs();
+      const s0 = timeToSecNoMs(start) - exSec;
+      const e0 = timeToSecNoMs(end)   + exSec;
+    
+      const byPlayer = new Map();
+    
+      for (const raw of expansionLines){
+        let m;
+    
+        m = raw.match(MARKET_BUY_RE);
+        if (m){
+          const [_, ts0, name, item, trader, zone, x,y,z, price] = m;
+          if (sel.size && !sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [Market] Player "${name}" has bought ${item} from the trader "${trader}" in market zone "${zone}" (pos=<${(+x).toFixed(6)}, ${(+y).toFixed(6)}, ${(+z).toFixed(6)}>) for a price of ${price}.`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+    
+        // SELL
+        m = raw.match(MARKET_SELL_RE);
+        if (m){
+          const [_, ts0, name, item, trader, zone, x,y,z, got] = m;
+          if (sel.size && !sel.has(name)) continue;
+          const ts = trimMs(ts0);
+          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const line = `${ts} [Market] Player "${name}" has sold ${item} at the trader "${trader}" in market zone "${zone}" (pos=<${(+x).toFixed(6)}, ${(+y).toFixed(6)}, ${(+z).toFixed(6)}>) and got ${got}.`;
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          continue;
+        }
+      }
+    
+      if (!byPlayer.size){ outEl.innerHTML = '<em>No matching market events in the selected window.</em>'; return; }
+    
+      const chunks = [];
+      [...byPlayer.entries()].sort((a,b)=> a[0].localeCompare(b[0])).forEach(([name, arr])=>{
+        arr.sort((a,b)=> a.t - b.t);
+        chunks.push(`${name}\n${arr.map(x=>x.line).join('\n')}`);
+      });
+      outEl.innerHTML = `<pre class="mono">${chunks.join('\n\n')}</pre>`;
+    }
 </script>
 </body>
 </html>
