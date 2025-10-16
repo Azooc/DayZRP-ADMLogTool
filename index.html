@@ -36,6 +36,12 @@
     .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
     .btn { background: transparent; border: 1px solid rgba(255,255,255,0.06); padding: 13px 15px; border-radius: 10px; cursor: pointer; color: inherit; font-size: 1.02rem; transition: all .2s ease; }
     .btn:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
+    
+    #themeToggleContainer{
+      width: 100%;
+      text-align: left;
+      margin-top: 8px;
+    }
 
     select, .textlike{
       background: rgba(255,255,255,0.92); border: 1px solid rgba(255,255,255,0.92);
@@ -99,16 +105,19 @@
       border: 1px solid rgba(255,255,255,0.1);
     }
 
-      .arrow-icon{
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        line-height:1;             
-        pointer-events:none;
-        transform-origin:center center;
-        text-shadow:0 0 2px #000;
-      }
+    .arrow-icon{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      line-height:1;
+      pointer-events:none;
+      transform-origin:center center;
+      text-shadow:0 0 2px #000;
+      color:#fff; 
+    }
     
+    body.light-mode .arrow-icon{ color:#fff !important; }
+
     .tip-ord { color: var(--accent); font-weight: 700; margin-bottom: 2px; }
     .tip-name { font-weight: 600; }
     .tip-time { color: var(--muted); font-size: 0.95rem; }
@@ -117,8 +126,6 @@
     .focus-pin{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6);border:2px solid var(--accent);box-shadow:0 0 10px rgba(0,0,0,.6);}
     .focus-v{background:#e53935;border-color:#e57373;}
     .focus-a{background:#1e88e5;border-color:#64b5f6;}
-
-
 
     footer{margin-top:20px; color:var(--muted); font-size:1rem; text-align:center;}
 
@@ -174,6 +181,146 @@
       #logPuller { flex: 1 1 100%; order: 3; }
       .logs-wrap{ width: 100%; }
     }
+    
+    /* LIGHT MODE */
+    body.light-mode{
+      --bg:    #b3b3b3;
+      --panel: #e0e0e0;
+      --muted: #000000;
+      --accent:#000000;
+    
+      background:#b3b3b3 !important;
+      color:#000000 !important;
+    }
+    
+    body.light-mode h1{ color:#ffffff !important; }
+    
+    body.light-mode .btn{
+      background:#ffffff !important;
+      color:#000000 !important;
+      border:1px solid #161616 !important;
+    }
+    body.light-mode .btn:hover{
+      background:#f3f3f3 !important;
+      border-color:#161616 !important;
+    }
+    
+    body.light-mode select,
+    body.light-mode .textlike{
+      background:#ffffff !important;
+      border:2px solid #000000 !important;
+      color:#000000 !important;
+      box-shadow:none !important;
+    }
+    body.light-mode select:hover,
+    body.light-mode select:focus{
+      border-color:#161616 !important;
+      box-shadow:0 0 0 2px rgba(0,0,0,.15) !important;
+    }
+    
+    body.light-mode input[type="checkbox"],
+    body.light-mode input[type="radio"]{ accent-color:#000000 !important; }
+    body.light-mode .filters label{ color:#000000 !important; }
+    
+    body.light-mode .panel{
+      background:var(--panel) !important;
+      border:1px solid #161616 !important;
+    }
+    
+    body.light-mode #playerSearch{
+      background:#ffffff !important;
+      color:#000000 !important;
+      border:1px solid #161616 !important;
+    }
+    body.light-mode #playerSearch:focus{ border-color:#161616 !important; }
+    body.light-mode .player-entry{ color:#000000 !important; }
+    body.light-mode .player-entry:hover{ background:#0000000f !important; color:#000000 !important; }
+    body.light-mode .color-swatch{ border:2px solid #161616 !important; }
+    
+    body.light-mode #map{
+      background:#d9d9d9 !important;
+      border:1px solid #161616 !important;
+    }
+    
+    body.light-mode .leaflet-control,
+    body.light-mode .leaflet-popup-content-wrapper,
+    body.light-mode .leaflet-popup-tip{
+      background:#ffffff !important;
+      color:#000000 !important;
+      border:1px solid #161616 !important;
+    }
+    body.light-mode .leaflet-bar a,
+    body.light-mode .leaflet-bar a:hover{
+      background:#f5f5f5 !important;
+      color:#000000 !important;
+      border-color:#161616 !important;
+    }
+    
+    body.light-mode .marker-tip.leaflet-tooltip{
+      background:#ffffff !important;
+      color:#000000 !important;
+      border:1px solid #161616 !important;
+      box-shadow:0 6px 20px rgba(0,0,0,0.15) !important;
+    }
+    body.light-mode .marker-tip .leaflet-tooltip-tip{
+      background:#ffffff !important;
+      border:1px solid #161616 !important;
+    }
+    body.light-mode .tip-ord,
+    body.light-mode .tip-time,
+    body.light-mode .tip-name,
+    body.light-mode .tip-coord{ color:#000000 !important; }
+    
+    body.light-mode #logPuller{
+      background:#c9c9c9 !important;
+      border:1px solid #161616 !important;
+      color:#000000 !important;
+    }
+    body.light-mode #logPuller h2,
+    body.light-mode .lp-label,
+    body.light-mode .lp-checks label{ color:#000000 !important; }
+    
+    body.light-mode .lp-section{
+      background:#cfcfcf !important;
+      border:1px solid #161616 !important;
+    }
+    
+    body.light-mode .btn.place,
+    body.light-mode .btn.pull{
+      background:#ffffff !important;
+      color:#000000 !important;
+      border-color:#161616 !important;
+    }
+    
+    body.light-mode .logs-title{ color:#000000 !important; }
+    body.light-mode .acc-item{
+      background:#efefef !important;
+      border:1px solid #161616 !important;
+    }
+    body.light-mode .acc-head{
+      background:#e9e9e9 !important;
+      color:#000000 !important;
+    }
+    body.light-mode .acc-head:hover{ background:#e2e2e2 !important; }
+    body.light-mode .acc-body{
+      color:#000000 !important;
+      border-top:1px solid #161616 !important;
+    }
+    body.light-mode .mono{
+      color:#000000 !important;
+      background:#ffffff !important;
+      border:1px solid #161616 !important;
+    }
+    body.light-mode .hl-pos{
+      color:#000000 !important;
+      background:#00000010 !important;
+    }
+    
+    body.light-mode footer{ color:#000000 !important; }
+    
+    body, .panel, #map, .acc-item, .acc-head, .acc-body, #logPuller, #playerSearch{
+      transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+    }
   </style>
 </head>
 <body>
@@ -187,8 +334,14 @@
         <select id="startTime"><option>Start Time</option></select>
         <select id="endTime"><option>End Time</option></select>
       </div>
-    </header>
-
+      <div id="themeToggleContainer" style="text-align:right; padding:4px 8px;">
+      <label style="cursor:pointer; user-select:none;">
+        <input type="checkbox" id="lightModeToggle" />
+        Light Mode
+      </label>
+  </div>
+      
+</header>
     <div class="filters">
       <label><input type="checkbox" id="chkMarkers" checked>Markers</label>
       <label><input type="checkbox" id="chkPaths">Paths</label>
@@ -635,7 +788,20 @@
       const txt = `${(+x).toFixed(2)}, ${(+y).toFixed(2)}, ${(+z).toFixed(2)}`;
       return inside ? `<span class="hl-pos">${txt}</span>` : txt;
     }
-
+    
+    function inWindowClock(t, start, end) {
+      const x = timeToSec(t);
+      const s = timeToSec(start);
+      const e = timeToSec(end);
+      return (s <= e) ? (x >= s && x <= e) : (x >= s || x <= e); // crosses midnight
+    }
+    
+    // Same, but for raw seconds (you already compute s0/e0 with extra windows)
+    function normDaySec(v){ return ((v % 86400) + 86400) % 86400; }
+    function inWindowSec(x, s, e) {
+      x = normDaySec(x); s = normDaySec(s); e = normDaySec(e);
+      return (s <= e) ? (x >= s && x <= e) : (x >= s || x <= e);
+    }
 
     function parseADMLog(text) {
       admEntries = [];
@@ -645,21 +811,18 @@
     
       window._rawLines = text.split('\n').map(l => l.replace(/\r$/, ''));
     
-      window._rawLines.forEach(line => {
+      window._rawLines.forEach((line, idx) => {
     
         const p = line.match(POS_LINE_RE);
         if (p) {
-          admEntries.push({
-            time: p[1], name: p[2], steamId: p[3],
-            x: +p[4], y: +p[5], z: +p[6], hp: p[7] ?? null
-          });
+          admEntries.push({ time: p[1], name: p[2], steamId: p[3], x:+p[4], y:+p[5], z:+p[6], hp: p[7] ?? null, ord: idx });
           return;
         }
     
         let m = line.match(CONNECT_RE);
         if (m) { connectionLines.push({ time: m[1], name: m[2], type: 'connect' }); return; }
         m = line.match(DISCONNECT_RE);
-        if (m) { connectionLines.push({ time: m[1], name: m[2], type: 'disconnect' }); return; }
+        if (m) { connectionLines.push({ time: m[1], name: m[2], type: 'disconnect', ord: idx }); return; }
     
         // Hits PVP
         const hP = line.match(HIT_PVP_RE);
@@ -731,20 +894,32 @@
       refreshMapLayers();
     }
 
-    const uniqueSortedPosTimes = () => [...new Set(admEntries.map(e => e.time))].sort();
+    function uniqueOrderedPosTimes() {
+      const seen = new Set();
+      const ordered = [];
+      for (const e of admEntries) {
+        if (!seen.has(e.time)) {
+          seen.add(e.time);
+          ordered.push(e.time);
+        }
+      }
+      return ordered;
+    }
 
     function updateTimeSelectors(defaultBothFirst = false) {
       const startSel = document.getElementById('startTime');
       const endSel = document.getElementById('endTime');
       startSel.innerHTML = '';
       endSel.innerHTML = '';
-      const times = uniqueSortedPosTimes();
-      for (const t of times) { startSel.add(new Option(t, t)); }
-
+    
+      const times = uniqueOrderedPosTimes();
+    
+      for (const t of times) startSel.add(new Option(t, t));
+    
       if (times.length) {
         startSel.value = times[0];
         updateEndTimeOptions();
-        if (defaultBothFirst) { endSel.value = times[0]; }
+        if (defaultBothFirst) endSel.value = times[0];
       }
     }
 
@@ -752,10 +927,20 @@
       const startSel = document.getElementById('startTime');
       const endSel = document.getElementById('endTime');
       const selectedStart = startSel.value;
-      const times = uniqueSortedPosTimes();
+    
+      const times = uniqueOrderedPosTimes();
+    
       endSel.innerHTML = '';
-      for (const t of times) if (t >= selectedStart) endSel.add(new Option(t, t));
-      if (endSel.options.length && (endSel.value < selectedStart)) endSel.value = selectedStart;
+    
+      const startIdx = Math.max(0, times.indexOf(selectedStart));
+      const endTimes = startIdx >= 0 ? times.slice(startIdx) : times;
+    
+      for (const t of endTimes) endSel.add(new Option(t, t));
+    
+      if (!Array.from(endSel.options).some(o => o.value === endSel.value)) {
+        endSel.value = endTimes[0] || '';
+      }
+    
       updatePlayerList();
     }
 
@@ -764,10 +949,10 @@
       const end   = document.getElementById('endTime').value;
 
       const names = new Set(
-        admEntries.filter(e => e.time >= start && e.time <= end).map(e => e.name)
+      admEntries.filter(e => inWindowClock(e.time, start, end)).map(e => e.name)
       );
-      damageEvents.forEach(d => { if (d.time >= start && d.time <= end) names.add(d.victim.name); });
-      killEvents.forEach(k => { if (k.time >= start && k.time <= end) { names.add(k.victim.name); names.add(k.attacker.name); } });
+      damageEvents.forEach(d => { if (inWindowClock(d.time, start, end)) names.add(d.victim.name); });
+      killEvents.forEach(k => { if (inWindowClock(k.time, start, end)) { names.add(k.victim.name); names.add(k.attacker.name); } });
 
       const list = [...names].sort();
       list.forEach(n => { if (!playerColors[n]) playerColors[n] = '#ff4d4d'; });
@@ -945,37 +1130,37 @@
 
     function applyRadiusSelection(){
       if (!currentRadiusCircle || !currentRadiusCenter) return;
-
+    
       const start = document.getElementById('startTime').value;
       const end   = document.getElementById('endTime').value;
       const R     = currentRadiusMeters;
-
+    
       const inside = new Set();
-
+    
       // Positions
       admEntries.forEach(e => {
-        if (e.time < start || e.time > end) return;
+        if (!inWindowClock(e.time, start, end)) return;
         const pt = { x: e.x, y: e.y };
         if (distXY(pt, currentRadiusCenter) <= R) inside.add(e.name);
       });
-
+    
       // Damage
       damageEvents.forEach(d => {
-        if (d.time < start || d.time > end) return;
+        if (!inWindowClock(d.time, start, end)) return;
         const pt = { x: d.victim.x, y: d.victim.y };
         if (distXY(pt, currentRadiusCenter) <= R) inside.add(d.victim.name);
       });
-
+    
       // Kills
       killEvents.forEach(k => {
-        if (k.time < start || k.time > end) return;
+        if (!inWindowClock(k.time, start, end)) return;
         const pt = { x: k.victim.x, y: k.victim.y };
         if (distXY(pt, currentRadiusCenter) <= R) {
           inside.add(k.victim.name);
           inside.add(k.attacker.name);
         }
       });
-
+    
       selectedPlayers.clear();
       inside.forEach(n => selectedPlayers.add(n));
       filterPlayerList();
@@ -1005,21 +1190,20 @@
     
       const { markerRadius, pathWeight, arrowSize, starSize, skullSize } = sizesForZoom(map.getZoom());
     
-      // --- Paths position markers ---
       const bucket = {};
       admEntries.forEach(e => {
-        if (e.time < start || e.time > end) return;
+        if (!inWindowClock(e.time, start, end)) return;
         if (!selected.has(e.name)) return;
-        (bucket[e.name] ??= []).push(e);
+        (bucket[e.name] ??= []).push(e); 
       });
-      Object.values(bucket).forEach(arr => arr.sort((a,b) => a.time.localeCompare(b.time)));
-    
+      
+      Object.values(bucket).forEach(arr => arr.sort((a,b) => a.ord - b.ord));
+
       Object.keys(bucket).forEach(name => {
         const entries = bucket[name];
         const N = entries.length;
         const color = playerColors[name] || '#ff4d4d';
     
-        // dot markers
         if (showMarkers) {
           entries.forEach((e, idx) => {
             const latlng = L.latLng(e.y, e.x);
@@ -1067,7 +1251,7 @@
     
       if (showHits) {
         const hitsInWindow = damageEvents.filter(d =>
-          d.time >= start && d.time <= end &&
+          inWindowClock(d.time, start, end) &&
           selected.has(d.victim.name) &&
           (!hidePVE || d.kind === 'pvp')
         );
@@ -1119,8 +1303,8 @@
     
       // Kills
       if (showKills) {
-        const killsInWindow = killEvents.filter(k =>
-          k.time >= start && k.time <= end &&
+        const hitsInWindow = damageEvents.filter(d =>
+          inWindowClock(d.time, start, end) &&
           (selected.has(k.victim.name) || selected.has(k.attacker.name)) &&
           (!hidePVE || !k.kind || k.kind === 'pvp') // future-proof if we ever tag non-PVP kills
         );
@@ -1206,244 +1390,247 @@
       refreshMapLayers();
     }
 
-  function renderConnectionLogs(){
-    const target = document.getElementById('logs-conn');
-    const selected = new Set(getSelectedPlayers());
-    if (!selected.size) {
-      target.innerHTML = '<em>No players selected.</em>';
-      return;
-    }
-    if (!connectionLines.length){
-      target.innerHTML = '<em>No connection data in this file.</em>';
-      return;
-    }
-    const start = document.getElementById('startTime').value || '00:00:00';
-    const end   = document.getElementById('endTime').value   || '23:59:59';
-    const exSec = extraWindowSecs();
-    const s0 = timeToSec(start) - exSec;
-    const e0 = timeToSec(end)   + exSec;
-    const byPlayer = new Map();
-    connectionLines.forEach(e=>{
-      if (!selected.has(e.name)) return;
-      const t = timeToSec(e.time);
-      if (t < s0 || t > e0) return; 
-      if (!byPlayer.has(e.name)) byPlayer.set(e.name, []);
-      byPlayer.get(e.name).push(e);
-    });
-    const chunks = [];
-    [...byPlayer.entries()]
-      .sort((a,b)=> a[0].localeCompare(b[0]))
-      .forEach(([name, list])=>{
-        list.sort((a,b)=> timeToSec(a.time)-timeToSec(b.time));
-        if (!list.length) return;
-        const lines = list.map(e =>
-          `${e.time} | ${name} ${e.type==='connect' ? 'is connected' : 'has been disconnected'}`
-        );
-        chunks.push(name + '\n' + lines.join('\n'));
+    function renderConnectionLogs(){
+      const target = document.getElementById('logs-conn');
+      const selected = new Set(getSelectedPlayers());
+      if (!selected.size) { target.innerHTML = '<em>No players selected.</em>'; return; }
+      if (!connectionLines.length){ target.innerHTML = '<em>No connection data in this file.</em>'; return; }
+    
+      const start = document.getElementById('startTime').value || '00:00:00';
+      const end   = document.getElementById('endTime').value   || '23:59:59';
+      const exSec = extraWindowSecs();
+    
+      const s0 = timeToSec(start) - exSec;
+      const e0 = timeToSec(end)   + exSec;
+    
+      const byPlayer = new Map();
+      connectionLines.forEach(ev => {
+        if (!selected.has(ev.name)) return;
+        const t = timeToSec(ev.time);
+        if (!inWindowSec(t, s0, e0)) return;
+        if (!byPlayer.has(ev.name)) byPlayer.set(ev.name, []);
+        byPlayer.get(ev.name).push(ev);
       });
-    target.innerHTML = chunks.length
-      ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
-      : '<em>No matching connection events for the selected players and timeframe.</em>';
-  }
-
-  function renderPositionLogs(){
-    const target = document.getElementById('logs-pos');
-    const selected = new Set(getSelectedPlayers());
-    if (!selected.size) {
-      target.innerHTML = '<em>No players selected.</em>';
-      return;
-    }
-    if (!admEntries.length){
-      target.innerHTML = '<em>No position data in this file.</em>';
-      return;
-    }
-    const start = document.getElementById('startTime').value || '00:00:00';
-    const end   = document.getElementById('endTime').value   || '23:59:59';
-    const exSec = extraWindowSecs();
-    const s0 = timeToSec(start) - exSec;
-    const e0 = timeToSec(end)   + exSec;
-    const byPlayer = new Map();
-    admEntries.forEach(e=>{
-      if (!selected.has(e.name)) return;
-      const t = timeToSec(e.time);
-      if (t < s0 || t > e0) return;
-      if (!byPlayer.has(e.name)) byPlayer.set(e.name, []);
-      byPlayer.get(e.name).push(e);
-    });  
-    const chunks = [];
-    [...byPlayer.entries()]
-      .sort((a,b)=> a[0].localeCompare(b[0]))
-      .forEach(([name, list])=>{
-        list.sort((a,b)=> timeToSec(a.time)-timeToSec(b.time));
-        if (!list.length) return;
-          const lines = list.map(e => {
-          const inside = !!(currentRadiusCircle && currentRadiusCenter && currentRadiusMeters && distXY({ x: e.x, y: e.y }, currentRadiusCenter) <= currentRadiusMeters);
-          const coordsText = `${e.x.toFixed(1)}, ${e.y.toFixed(1)}, ${e.z.toFixed(1)}`;
-          const coordsHTML = inside ? `<span class="hl-pos">${coordsText}</span>` : coordsText;
-          const posHTML    = `pos=<${coordsHTML}>`;
-          return `${e.time} | ${name} (${posHTML})`;
+    
+      const chunks = [];
+      [...byPlayer.entries()]
+        .sort((a,b)=> a[0].localeCompare(b[0]))
+        .forEach(([name, list])=>{
+          list.sort((a,b)=> a.ord - b.ord);
+          if (!list.length) return;
+          const lines = list.map(e =>
+            `${e.time} | ${name} ${e.type==='connect' ? 'is connected' : 'has been disconnected'}`
+          );
+          chunks.push(name + '\n' + lines.join('\n'));
         });
-        chunks.push(name + '\n' + lines.join('\n'));
-      });
-    target.innerHTML = chunks.length
-      ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
-      : '<em>No matching position events for the selected players and timeframe.</em>';
-  }    
+    
+      target.innerHTML = chunks.length
+        ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
+        : '<em>No matching connection events for the selected players and timeframe.</em>';
+    }
 
-  function renderHitLogs(){
-    const outEl = document.getElementById('logs-hit');
-    const sel = new Set(getSelectedPlayers());
-    if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
-    if (!window._rawLines) { outEl.innerHTML = '<em>No data yet.</em>'; return; }
-  
-    const start = document.getElementById('startTime').value || '00:00:00';
-    const end   = document.getElementById('endTime').value   || '23:59:59';
-    const exSec = extraWindowSecs();
-    const s0 = timeToSec(start) - exSec;
-    const e0 = timeToSec(end)   + exSec;
-  
-    const chronological =
-      document.getElementById('chkChronologicalHK')?.checked === true ||
-      document.getElementById('chkChronoHK')?.checked === true;
-    const ignoreNonPVP = document.getElementById('chkIgnoreNonPVP')?.checked === true;
-  
-    if (chronological) {
-      const allLines = [];
-      for (const raw of window._rawLines) {
+    function renderPositionLogs(){
+      const target = document.getElementById('logs-pos');
+      const selected = new Set(getSelectedPlayers());
+      if (!selected.size) { target.innerHTML = '<em>No players selected.</em>'; return; }
+      if (!admEntries.length){ target.innerHTML = '<em>No position data in this file.</em>'; return; }
+    
+      const start = document.getElementById('startTime').value || '00:00:00';
+      const end   = document.getElementById('endTime').value   || '23:59:59';
+      const exSec = extraWindowSecs();
+      const s0 = timeToSec(start) - exSec;
+      const e0 = timeToSec(end)   + exSec;
+    
+      const byPlayer = new Map();
+      admEntries.forEach(e=>{
+        if (!selected.has(e.name)) return;
+        const t = timeToSec(e.time);
+        if (!inWindowSec(t, s0, e0)) return;
+        if (!byPlayer.has(e.name)) byPlayer.set(e.name, []);
+        byPlayer.get(e.name).push(e);
+      });
+    
+      const chunks = [];
+      [...byPlayer.entries()]
+        .sort((a,b)=> a[0].localeCompare(b[0]))
+        .forEach(([name, list])=>{
+          list.sort((a,b)=> a.ord - b.ord);
+          if (!list.length) return;
+    
+          const lines = list.map(e => {
+            const inside = !!(currentRadiusCircle && currentRadiusCenter && currentRadiusMeters &&
+                              distXY({ x: e.x, y: e.y }, currentRadiusCenter) <= currentRadiusMeters);
+            const coordsText = `${e.x.toFixed(1)}, ${e.y.toFixed(1)}, ${e.z.toFixed(1)}`;
+            const coordsHTML = inside ? `<span class="hl-pos">${coordsText}</span>` : coordsText;
+            return `${e.time} | ${name} (pos=<${coordsHTML}>)`;
+          });
+          chunks.push(name + '\n' + lines.join('\n'));
+        });
+    
+      target.innerHTML = chunks.length
+        ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
+        : '<em>No matching position events for the selected players and timeframe.</em>';
+    }   
+
+    function renderHitLogs(){
+      const outEl = document.getElementById('logs-hit');
+      const sel = new Set(getSelectedPlayers());
+      if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
+      if (!window._rawLines) { outEl.innerHTML = '<em>No data yet.</em>'; return; }
+    
+      const start = document.getElementById('startTime').value || '00:00:00';
+      const end   = document.getElementById('endTime').value   || '23:59:59';
+      const exSec = extraWindowSecs();
+      const s0 = timeToSec(start) - exSec;
+      const e0 = timeToSec(end)   + exSec;
+    
+      const chronological =
+        document.getElementById('chkChronologicalHK')?.checked === true ||
+        document.getElementById('chkChronoHK')?.checked === true;
+      const ignoreNonPVP = document.getElementById('chkIgnoreNonPVP')?.checked === true;
+    
+      if (chronological) {
+        const allLines = [];
+        for (let i = 0; i < window._rawLines.length; i++) {
+          const raw = window._rawLines[i];
+    
+          const m = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
+          if (!m) continue;
+    
+          if (ignoreNonPVP && !raw.includes('hit by Player')) continue;
+    
+          const tStr = lineTime(raw);
+          if (!tStr) continue;
+          const t = timeToSec(tStr);
+          if (!inWindowSec(t, s0, e0)) continue;
+    
+          const victimName = m[2];
+          if (!sel.has(victimName)) continue;
+    
+          allLines.push({ i, line: stripIds(raw) });
+        }
+    
+        allLines.sort((a,b)=> a.i - b.i);
+        outEl.innerHTML = allLines.length
+          ? `<pre class="mono">${allLines.map(x=>x.line).join('\n')}</pre>`
+          : '<em>No matching hit logs in the selected window.</em>';
+        return;
+      }
+    
+      const byPlayer = new Map();
+      for (let i = 0; i < window._rawLines.length; i++) {
+        const raw = window._rawLines[i];
+    
         const m = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
         if (!m) continue;
-  
         if (ignoreNonPVP && !raw.includes('hit by Player')) continue;
-  
+    
         const tStr = lineTime(raw);
         if (!tStr) continue;
         const t = timeToSec(tStr);
-        if (t < s0 || t > e0) continue;
-  
+        if (!inWindowSec(t, s0, e0)) continue;
+    
         const victimName = m[2];
         if (!sel.has(victimName)) continue;
-  
-        allLines.push({ t, line: stripIds(raw) });
+    
+        const cleaned = stripIds(raw);
+        if (!byPlayer.has(victimName)) byPlayer.set(victimName, []);
+        byPlayer.get(victimName).push({ i, line: cleaned });
       }
-  
-      allLines.sort((a,b)=>a.t-b.t);
-      outEl.innerHTML = allLines.length
-        ? `<pre class="mono">${allLines.map(x=>x.line).join('\n')}</pre>`
+    
+      const chunks = [];
+      [...byPlayer.entries()]
+        .sort((a,b)=> a[0].localeCompare(b[0]))
+        .forEach(([name, arr])=>{
+          arr.sort((a,b)=> a.i - b.i);
+          const lines = arr.map(x => x.line);
+          if (lines.length) chunks.push(name + '\n' + lines.join('\n'));
+        });
+    
+      outEl.innerHTML = chunks.length
+        ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
         : '<em>No matching hit logs in the selected window.</em>';
-      return;
     }
-  
-    const byPlayer = new Map();
-    for (const raw of window._rawLines) {
-      const m = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
-      if (!m) continue;
-  
-      if (ignoreNonPVP && !raw.includes('hit by Player')) continue;
-  
-      const tStr = lineTime(raw);
-      if (!tStr) continue;
-      const t = timeToSec(tStr);
-      if (t < s0 || t > e0) continue;
-  
-      const victimName = m[2];
-      if (!sel.has(victimName)) continue;
-  
-      const cleaned = stripIds(raw);
-      if (!byPlayer.has(victimName)) byPlayer.set(victimName, []);
-      byPlayer.get(victimName).push({ t, line: cleaned });
-    }
-  
-    const chunks = [];
-    [...byPlayer.entries()]
-      .sort((a,b)=> a[0].localeCompare(b[0]))
-      .forEach(([name, arr])=>{
-        arr.sort((a,b)=> a.t - b.t);
-        const lines = arr.map(x => x.line);
-        if (lines.length) chunks.push(name + '\n' + lines.join('\n'));
-      });
-  
-    outEl.innerHTML = chunks.length
-      ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
-      : '<em>No matching hit logs in the selected window.</em>';
-  }
 
-  function renderKillLogs(){
-    const outEl = document.getElementById('logs-kill');
-    const sel = new Set(getSelectedPlayers());
-    if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
-    if (!window._rawLines) { outEl.innerHTML = '<em>No data yet.</em>'; return; }
-  
-    const start = document.getElementById('startTime').value || '00:00:00';
-    const end   = document.getElementById('endTime').value   || '23:59:59';
-    const exSec = extraWindowSecs();
-    const s0 = timeToSec(start) - exSec;
-    const e0 = timeToSec(end)   + exSec;
-  
-    const chronological =
-      document.getElementById('chkChronologicalHK')?.checked === true ||
-      document.getElementById('chkChronoHK')?.checked === true;
-    const ignoreNonPVP = document.getElementById('chkIgnoreNonPVP')?.checked === true;
-  
-    if (chronological) {
-      const allLines = [];
-      for (const raw of window._rawLines) {
+    function renderKillLogs(){
+      const outEl = document.getElementById('logs-kill');
+      const sel = new Set(getSelectedPlayers());
+      if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
+      if (!window._rawLines) { outEl.innerHTML = '<em>No data yet.</em>'; return; }
+    
+      const start = document.getElementById('startTime').value || '00:00:00';
+      const end   = document.getElementById('endTime').value   || '23:59:59';
+      const exSec = extraWindowSecs();
+      const s0 = timeToSec(start) - exSec;
+      const e0 = timeToSec(end)   + exSec;
+    
+      const chronological =
+        document.getElementById('chkChronologicalHK')?.checked === true ||
+        document.getElementById('chkChronoHK')?.checked === true;
+      const ignoreNonPVP = document.getElementById('chkIgnoreNonPVP')?.checked === true;
+    
+      if (chronological) {
+        const allLines = [];
+        for (let i = 0; i < window._rawLines.length; i++) {
+          const raw = window._rawLines[i];
+          const m = raw.match(KILL_PVP_RE);
+          if (!m) continue;
+    
+          if (ignoreNonPVP && !raw.includes('killed by Player')) continue;
+    
+          const tStr = lineTime(raw);
+          if (!tStr) continue;
+          const t = timeToSec(tStr);
+          if (!inWindowSec(t, s0, e0)) continue;
+    
+          const victimName = m[2];
+          if (!sel.has(victimName)) continue;
+    
+          allLines.push({ i, line: stripIds(raw) });
+        }
+    
+        allLines.sort((a,b)=> a.i - b.i);
+        outEl.innerHTML = allLines.length
+          ? `<pre class="mono">${allLines.map(x=>x.line).join('\n')}</pre>`
+          : '<em>No matching kill logs in the selected window.</em>';
+        return;
+      }
+    
+      const byPlayer = new Map();
+      for (let i = 0; i < window._rawLines.length; i++) {
+        const raw = window._rawLines[i];
         const m = raw.match(KILL_PVP_RE);
         if (!m) continue;
-  
+    
         if (ignoreNonPVP && !raw.includes('killed by Player')) continue;
-  
+    
         const tStr = lineTime(raw);
         if (!tStr) continue;
         const t = timeToSec(tStr);
-        if (t < s0 || t > e0) continue;
-  
+        if (!inWindowSec(t, s0, e0)) continue;
+    
         const victimName = m[2];
         if (!sel.has(victimName)) continue;
-  
-        allLines.push({ t, line: stripIds(raw) });
+    
+        const cleaned = stripIds(raw);
+        if (!byPlayer.has(victimName)) byPlayer.set(victimName, []);
+        byPlayer.get(victimName).push({ i, line: cleaned });
       }
-  
-      allLines.sort((a,b)=>a.t-b.t);
-      outEl.innerHTML = allLines.length
-        ? `<pre class="mono">${allLines.map(x=>x.line).join('\n')}</pre>`
+    
+      const chunks = [];
+      [...byPlayer.entries()]
+        .sort((a,b)=> a[0].localeCompare(b[0]))
+        .forEach(([name, arr])=>{
+          arr.sort((a,b)=> a.i - b.i);
+          const lines = arr.map(x => x.line);
+          if (lines.length) chunks.push(name + '\n' + lines.join('\n'));
+        });
+    
+      outEl.innerHTML = chunks.length
+        ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
         : '<em>No matching kill logs in the selected window.</em>';
-      return;
     }
-  
-    const byPlayer = new Map(); 
-    for (const raw of window._rawLines) {
-      const m = raw.match(KILL_PVP_RE);
-      if (!m) continue;
-  
-      if (ignoreNonPVP && !raw.includes('killed by Player')) continue;
-  
-      const tStr = lineTime(raw);
-      if (!tStr) continue;
-      const t = timeToSec(tStr);
-      if (t < s0 || t > e0) continue;
-  
-      const victimName = m[2];
-      if (!sel.has(victimName)) continue;
-  
-      const cleaned = stripIds(raw);
-      if (!byPlayer.has(victimName)) byPlayer.set(victimName, []);
-      byPlayer.get(victimName).push({ t, line: cleaned });
-    }
-  
-    const chunks = [];
-    [...byPlayer.entries()]
-      .sort((a,b)=> a[0].localeCompare(b[0]))
-      .forEach(([name, arr])=>{
-        arr.sort((a,b)=> a.t - b.t);
-        const lines = arr.map(x => x.line);
-        if (lines.length) chunks.push(name + '\n' + lines.join('\n'));
-      });
-  
-    outEl.innerHTML = chunks.length
-      ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
-      : '<em>No matching kill logs in the selected window.</em>';
-  }
-  
+ 
   function renderChatLogs() {
     const outEl = document.getElementById('logs-chat');
     outEl.innerHTML = '';
@@ -1461,7 +1648,7 @@
       if (!m) continue;
       const time = m[1], name = m[2], msg = m[3];
       const t = timeToSec(time);
-      if (t < s0 || t > e0) continue;
+      if (!inWindowSec(t, s0, e0)) continue;
       if (!sel.has(name)) continue;  
       if (!grouped[name]) grouped[name] = [];
       grouped[name].push(`${time} | ${name}: ${msg}`);
@@ -1475,150 +1662,61 @@
       : '<em>No matching chat logs in the selected window.</em>';
   }
     
-  function renderBuildLogs(){
-    const outEl = document.getElementById('logs-build');
-    const sel = new Set(getSelectedPlayers());
-    if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
-    if (!window._rawLines) { outEl.innerHTML = '<em>No data yet.</em>'; return; }
-  
-    const start = document.getElementById('startTime').value || '00:00:00';
-    const end   = document.getElementById('endTime').value   || '23:59:59';
-    const exSec = extraWindowSecs();
-    const s0 = timeToSec(start) - exSec;
-    const e0 = timeToSec(end)   + exSec;
-  
-    const byPlayer = new Map();
-  
-    for (const raw of window._rawLines) {
-      let m = raw.match(BUILD_RE) || raw.match(PLACE_RE);
-      if (!m) continue;
-  
-      const tStr = m[1];
-      const name = m[2];
-      const x    = +m[4];
-      const y    = +m[5];
-      const z    = +m[6];
-      let action = m[7];
-  
-      if (!sel.has(name)) continue;
-  
-      const t = timeToSec(tStr);
-      if (t < s0 || t > e0) continue;
-  
-      action = action.replace(/</, ' <');
-  
-      const inside = !!(currentRadiusCircle && currentRadiusCenter && currentRadiusMeters &&
-                        distXY({ x, y }, currentRadiusCenter) <= currentRadiusMeters);
-      const coordsText = `${x.toFixed(1)}, ${y.toFixed(1)}, ${z.toFixed(1)}`;
-      const coordsHTML = inside ? `<span class="hl-pos">${coordsText}</span>` : coordsText;
-      const line = `${tStr} | Player "${name}" (pos=<${coordsHTML}>) ${raw.match(BUILD_RE) ? 'Built' : 'placed'} ${action}`;
-  
-      if (!byPlayer.has(name)) byPlayer.set(name, []);
-      byPlayer.get(name).push({ t, line });
-    }
-  
-    const chunks = [];
-    [...byPlayer.entries()]
-      .sort((a,b)=> a[0].localeCompare(b[0]))
-      .forEach(([name, arr])=>{
-        arr.sort((a,b)=> a.t - b.t);
-        const lines = arr.map(x => x.line);
-        if (lines.length) {
-          chunks.push(name + '\n' + lines.join('\n'));
-        }
-      });
-  
-    outEl.innerHTML = chunks.length
-      ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
-      : '<em>No matching building/placement logs in the selected window.</em>';
-  }
-
-    function renderVehicleLogs(){
-      const outEl = document.getElementById('logs-veh');
+    function renderBuildLogs(){
+      const outEl = document.getElementById('logs-build');
       const sel = new Set(getSelectedPlayers());
       if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
-      if (!expansionLines || !expansionLines.length) { outEl.innerHTML = '<em>No expansion logs loaded.</em>'; return; }
+      if (!window._rawLines) { outEl.innerHTML = '<em>No data yet.</em>'; return; }
     
       const start = document.getElementById('startTime').value || '00:00:00';
       const end   = document.getElementById('endTime').value   || '23:59:59';
       const exSec = extraWindowSecs();
-      const s0 = timeToSecNoMs(start) - exSec;
-      const e0 = timeToSecNoMs(end)   + exSec;
+      const s0 = timeToSec(start) - exSec;
+      const e0 = timeToSec(end)   + exSec;
     
       const byPlayer = new Map();
     
-      for (const raw of expansionLines){
-        let m;
+      for (let i = 0; i < window._rawLines.length; i++) {
+        const raw = window._rawLines[i];
+        let m = raw.match(BUILD_RE) || raw.match(PLACE_RE);
+        if (!m) continue;
     
-        // VehicleEnter
-        m = raw.match(VEH_ENTER_RE);
-        if (m){
-          const [_, ts0, name, veh, vx, vy, vz, seat] = m;
-          if (!sel.has(name)) continue;
-          const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
-          const line = `${ts} [VehicleEnter] Player "${name}" entered vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}> as ${seat}`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
-          continue;
-        }
+        const tStr = m[1];
+        const name = m[2];
+        const x    = +m[4];
+        const y    = +m[5];
+        const z    = +m[6];
+        let action = m[7];
     
-        // VehicleLeave
-        m = raw.match(VEH_LEAVE_RE);
-        if (m){
-          const [_, ts0, name, veh, vx, vy, vz] = m;
-          if (!sel.has(name)) continue;
-          const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
-          const line = `${ts} [VehicleLeave] Player "${name}" left vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
-          continue;
-        }
+        if (!sel.has(name)) continue;
     
-        // VehicleEngine
-        m = raw.match(VEH_ENGINE_RE);
-        if (m){
-          const [_, ts0, name, action, veh, vx, vy, vz] = m;
-          if (!sel.has(name)) continue;
-          const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
-          const line = `${ts} [VehicleEngine] Player "${name}" ${action} vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
-          continue;
-        }
+        const t = timeToSec(tStr);
+        if (!inWindowSec(t, s0, e0)) continue;
     
-        // VehicleCarKey
-        m = raw.match(VEH_KEY_RE);
-        if (m){
-          const [_, ts0, name, px, py, pz, action, veh, vx, vy, vz] = m;
-          if (!sel.has(name)) continue;
-          const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
-          const line = `${ts} [VehicleCarKey] Player "${name}" used ExpansionCarKey to ${action} ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
-          continue;
-        }
+        action = action.replace(/</, ' <');
     
-        // VehicleLockPick
-        m = raw.match(VEH_PICK_RE);
-        if (m){
-          const [_, ts0, name, px, py, pz, action, veh, vx, vy, vz] = m;
-          if (!sel.has(name)) continue;
-          const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
-          const line = `${ts} [VehicleLockPick] Player "${name}" ${action} ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}> with Lockpick`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
-          continue;
-        }
+        const inside = !!(currentRadiusCircle && currentRadiusCenter && currentRadiusMeters &&
+                          distXY({ x, y }, currentRadiusCenter) <= currentRadiusMeters);
+        const coordsText = `${x.toFixed(1)}, ${y.toFixed(1)}, ${z.toFixed(1)}`;
+        const coordsHTML = inside ? `<span class="hl-pos">${coordsText}</span>` : coordsText;
+        const line = `${tStr} | Player "${name}" (pos=<${coordsHTML}>) ${raw.match(BUILD_RE) ? 'Built' : 'placed'} ${action}`;
+    
+        if (!byPlayer.has(name)) byPlayer.set(name, []);
+        byPlayer.get(name).push({ i, line });
       }
     
-      if (!byPlayer.size){ outEl.innerHTML = '<em>No matching vehicle events in the selected window.</em>'; return; }
-    
       const chunks = [];
-      [...byPlayer.entries()].sort((a,b)=> a[0].localeCompare(b[0])).forEach(([name, arr])=>{
-        arr.sort((a,b)=> a.t - b.t);
-        chunks.push(`${name}\n${arr.map(x=>x.line).join('\n')}`);
-      });
-      outEl.innerHTML = `<pre class="mono">${chunks.join('\n\n')}</pre>`;
+      [...byPlayer.entries()]
+        .sort((a,b)=> a[0].localeCompare(b[0]))
+        .forEach(([name, arr])=>{
+          arr.sort((a,b)=> a.i - b.i); // file order
+          const lines = arr.map(x => x.line);
+          if (lines.length) chunks.push(name + '\n' + lines.join('\n'));
+        });
+    
+      outEl.innerHTML = chunks.length
+        ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
+        : '<em>No matching building/placement logs in the selected window.</em>';
     }
     
     function renderVehicleLogs(){
@@ -1635,7 +1733,8 @@
     
       const byPlayer = new Map();
     
-      for (const raw of expansionLines){
+      for (let i = 0; i < expansionLines.length; i++){
+        const raw = expansionLines[i];
         let m;
     
         // VehicleEnter
@@ -1644,9 +1743,9 @@
           const [_, ts0, name, veh, vx, vy, vz, seat] = m;
           if (!sel.has(name)) continue;
           const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const t  = timeToSecNoMs(ts); if (!inWindowSec(t, s0, e0)) continue;
           const line = `${ts} [VehicleEnter] Player "${name}" entered vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}> as ${seat}`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({ i, line });
           continue;
         }
     
@@ -1656,9 +1755,9 @@
           const [_, ts0, name, veh, vx, vy, vz] = m;
           if (!sel.has(name)) continue;
           const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const t  = timeToSecNoMs(ts); if (!inWindowSec(t, s0, e0)) continue;
           const line = `${ts} [VehicleLeave] Player "${name}" left vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({ i, line });
           continue;
         }
     
@@ -1668,9 +1767,9 @@
           const [_, ts0, name, action, veh, vx, vy, vz] = m;
           if (!sel.has(name)) continue;
           const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const t  = timeToSecNoMs(ts); if (!inWindowSec(t, s0, e0)) continue;
           const line = `${ts} [VehicleEngine] Player "${name}" ${action} vehicle ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({ i, line });
           continue;
         }
     
@@ -1680,9 +1779,9 @@
           const [_, ts0, name, px, py, pz, action, veh, vx, vy, vz] = m;
           if (!sel.has(name)) continue;
           const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const t  = timeToSecNoMs(ts); if (!inWindowSec(t, s0, e0)) continue;
           const line = `${ts} [VehicleCarKey] Player "${name}" used ExpansionCarKey to ${action} ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}>`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({ i, line });
           continue;
         }
     
@@ -1692,9 +1791,9 @@
           const [_, ts0, name, px, py, pz, action, veh, vx, vy, vz] = m;
           if (!sel.has(name)) continue;
           const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const t  = timeToSecNoMs(ts); if (!inWindowSec(t, s0, e0)) continue;
           const line = `${ts} [VehicleLockPick] Player "${name}" ${action} ${veh.trim()} pos=<${(+vx).toFixed(2)}, ${(+vy).toFixed(2)}, ${(+vz).toFixed(2)}> with Lockpick`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({ i, line });
           continue;
         }
       }
@@ -1703,12 +1802,12 @@
     
       const chunks = [];
       [...byPlayer.entries()].sort((a,b)=> a[0].localeCompare(b[0])).forEach(([name, arr])=>{
-        arr.sort((a,b)=> a.t - b.t);
+        arr.sort((a,b)=> a.i - b.i); // file order
         chunks.push(`${name}\n${arr.map(x=>x.line).join('\n')}`);
       });
       outEl.innerHTML = `<pre class="mono">${chunks.join('\n\n')}</pre>`;
     }
-
+    
     function renderRaidingLogs(){
       const outEl = document.getElementById('logs-raid');
       const sel = new Set(getSelectedPlayers());
@@ -1723,7 +1822,8 @@
     
       const byPlayer = new Map();
     
-      for (const raw of expansionLines){
+      for (let i = 0; i < expansionLines.length; i++){
+        const raw = expansionLines[i];
         let m;
     
         // BaseBuildingRaiding
@@ -1732,9 +1832,9 @@
           const [_, ts0, name, px, py, pz, target, tx, ty, tz] = m;
           if (!sel.has(name)) continue;
           const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const t  = timeToSecNoMs(ts); if (!inWindowSec(t, s0, e0)) continue;
           const line = `${ts} [BaseBuildingRaiding] Player "${name}" damaged ${target.trim()} at <${(+tx).toFixed(2)}, ${(+ty).toFixed(2)}, ${(+tz).toFixed(2)}>`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({ i, line });
           continue;
         }
     
@@ -1745,9 +1845,9 @@
           const name = pname;
           if (!sel.has(name)) continue;
           const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const t  = timeToSecNoMs(ts); if (!inWindowSec(t, s0, e0)) continue;
           const line = `${ts} [BaseRaiding] ${objName.trim()} (<${(+ox).toFixed(6)}, ${(+oy).toFixed(6)}, ${(+oz).toFixed(6)}>) Damaged player "${name}" by ${dmg} health points. Reason: ${reason}`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({ i, line });
           continue;
         }
       }
@@ -1756,7 +1856,7 @@
     
       const chunks = [];
       [...byPlayer.entries()].sort((a,b)=> a[0].localeCompare(b[0])).forEach(([name, arr])=>{
-        arr.sort((a,b)=> a.t - b.t);
+        arr.sort((a,b)=> a.i - b.i);
         chunks.push(`${name}\n${arr.map(x=>x.line).join('\n')}`);
       });
       outEl.innerHTML = `<pre class="mono">${chunks.join('\n\n')}</pre>`;
@@ -1775,7 +1875,8 @@
     
       const byPlayer = new Map();
     
-      for (const raw of expansionLines){
+      for (let i = 0; i < expansionLines.length; i++){
+        const raw = expansionLines[i];
         let m;
     
         m = raw.match(MARKET_BUY_RE);
@@ -1783,21 +1884,20 @@
           const [_, ts0, name, item, trader, zone, x,y,z, price] = m;
           if (sel.size && !sel.has(name)) continue;
           const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const t  = timeToSecNoMs(ts); if (!inWindowSec(t, s0, e0)) continue;
           const line = `${ts} [Market] Player "${name}" has bought ${item} from the trader "${trader}" in market zone "${zone}" (pos=<${(+x).toFixed(6)}, ${(+y).toFixed(6)}, ${(+z).toFixed(6)}>) for a price of ${price}.`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({ i, line });
           continue;
         }
     
-        // SELL
         m = raw.match(MARKET_SELL_RE);
         if (m){
           const [_, ts0, name, item, trader, zone, x,y,z, got] = m;
           if (sel.size && !sel.has(name)) continue;
           const ts = trimMs(ts0);
-          const t  = timeToSecNoMs(ts); if (t < s0 || t > e0) continue;
+          const t  = timeToSecNoMs(ts); if (!inWindowSec(t, s0, e0)) continue;
           const line = `${ts} [Market] Player "${name}" has sold ${item} at the trader "${trader}" in market zone "${zone}" (pos=<${(+x).toFixed(6)}, ${(+y).toFixed(6)}, ${(+z).toFixed(6)}>) and got ${got}.`;
-          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({t,line});
+          (byPlayer.get(name) ?? byPlayer.set(name,[]).get(name)).push({ i, line });
           continue;
         }
       }
@@ -1806,11 +1906,31 @@
     
       const chunks = [];
       [...byPlayer.entries()].sort((a,b)=> a[0].localeCompare(b[0])).forEach(([name, arr])=>{
-        arr.sort((a,b)=> a.t - b.t);
+        arr.sort((a,b)=> a.i - b.i);
         chunks.push(`${name}\n${arr.map(x=>x.line).join('\n')}`);
       });
       outEl.innerHTML = `<pre class="mono">${chunks.join('\n\n')}</pre>`;
     }
+
+    // LightMode Toggle
+    const toggle = document.getElementById('lightModeToggle');
+    if (toggle) {
+      if (localStorage.getItem('lightMode') === 'true') {
+        document.body.classList.add('light-mode');
+        toggle.checked = true;
+      }
+    
+      toggle.addEventListener('change', e => {
+        if (e.target.checked) {
+          document.body.classList.add('light-mode');
+          localStorage.setItem('lightMode', 'true');
+        } else {
+          document.body.classList.remove('light-mode');
+          localStorage.setItem('lightMode', 'false');
+        }
+      });
+    }
+
 </script>
 </body>
 </html>
