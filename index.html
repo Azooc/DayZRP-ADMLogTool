@@ -793,10 +793,9 @@
       const x = timeToSec(t);
       const s = timeToSec(start);
       const e = timeToSec(end);
-      return (s <= e) ? (x >= s && x <= e) : (x >= s || x <= e); // crosses midnight
+      return (s <= e) ? (x >= s && x <= e) : (x >= s || x <= e);
     }
     
-    // Same, but for raw seconds (you already compute s0/e0 with extra windows)
     function normDaySec(v){ return ((v % 86400) + 86400) % 86400; }
     function inWindowSec(x, s, e) {
       x = normDaySec(x); s = normDaySec(s); e = normDaySec(e);
@@ -820,10 +819,10 @@
         }
     
         let m = line.match(CONNECT_RE);
-        if (m) { connectionLines.push({ time: m[1], name: m[2], type: 'connect' }); return; }
-        m = line.match(DISCONNECT_RE);
-        if (m) { connectionLines.push({ time: m[1], name: m[2], type: 'disconnect', ord: idx }); return; }
-    
+          if (m) { connectionLines.push({ time: m[1], name: m[2], type: 'connect',    ord: idx }); return; }
+          m = line.match(DISCONNECT_RE);
+          if (m) { connectionLines.push({ time: m[1], name: m[2], type: 'disconnect', ord: idx }); return; }
+
         // Hits PVP
         const hP = line.match(HIT_PVP_RE);
         if (hP) {
@@ -1303,12 +1302,11 @@
     
       // Kills
       if (showKills) {
-        const hitsInWindow = damageEvents.filter(d =>
-          inWindowClock(d.time, start, end) &&
-          (selected.has(k.victim.name) || selected.has(k.attacker.name)) &&
-          (!hidePVE || !k.kind || k.kind === 'pvp') // future-proof if we ever tag non-PVP kills
+        const killsInWindow = killEvents.filter(k =>
+          inWindowClock(k.time, start, end) &&
+          (selected.has(k.victim.name) || selected.has(k.attacker.name))
         );
-    
+          
         killsInWindow.forEach(evt => {
           const vColor = playerColors[evt.victim.name] || '#ff4d4d';
           const size = Math.round(skullSize), half = Math.round(size/2);
@@ -1403,30 +1401,51 @@
       const s0 = timeToSec(start) - exSec;
       const e0 = timeToSec(end)   + exSec;
     
-      const byPlayer = new Map();
-      connectionLines.forEach(ev => {
-        if (!selected.has(ev.name)) return;
-        const t = timeToSec(ev.time);
-        if (!inWindowSec(t, s0, e0)) return;
-        if (!byPlayer.has(ev.name)) byPlayer.set(ev.name, []);
-        byPlayer.get(ev.name).push(ev);
-      });
+      const allByPlayer = new Map();
+      for (const ev of connectionLines) {
+        if (!selected.has(ev.name)) continue;
+        if (!allByPlayer.has(ev.name)) allByPlayer.set(ev.name, []);
+        allByPlayer.get(ev.name).push(ev);
+      }
     
       const chunks = [];
-      [...byPlayer.entries()]
-        .sort((a,b)=> a[0].localeCompare(b[0]))
-        .forEach(([name, list])=>{
-          list.sort((a,b)=> a.ord - b.ord);
-          if (!list.length) return;
-          const lines = list.map(e =>
-            `${e.time} | ${name} ${e.type==='connect' ? 'is connected' : 'has been disconnected'}`
-          );
-          chunks.push(name + '\n' + lines.join('\n'));
-        });
+    
+      for (const [name, list] of [...allByPlayer.entries()].sort((a,b)=> a[0].localeCompare(b[0]))) {
+        list.sort((a,b)=> a.ord - b.ord);
+    
+        const latestConnect    = [...list].filter(e => e.type === 'connect').slice(-1)[0] || null;
+        const latestDisconnect = [...list].filter(e => e.type === 'disconnect').slice(-1)[0] || null;
+    
+        const inWindow = [];
+        for (const e of list) {
+          const t = timeToSec(e.time);
+          if (inWindowSec(t, s0, e0)) inWindow.push(e);
+        }
+    
+        const combined = [];
+        const seenOrd = new Set();
+    
+        for (const e of [latestConnect, latestDisconnect, ...inWindow]) {
+          if (!e) continue;
+          if (seenOrd.has(e.ord)) continue;
+          seenOrd.add(e.ord);
+          combined.push(e);
+        }
+    
+        if (!combined.length) continue;
+    
+        combined.sort((a,b)=> a.ord - b.ord);
+    
+        const lines = combined.map(e =>
+          `${e.time} | ${name} ${e.type==='connect' ? 'is connected' : 'has been disconnected'}`
+        );
+    
+        chunks.push(name + '\n' + lines.join('\n'));
+      }
     
       target.innerHTML = chunks.length
         ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
-        : '<em>No matching connection events for the selected players and timeframe.</em>';
+        : '<em>No matching connection events for the selected players.</em>';
     }
 
     function renderPositionLogs(){
@@ -1709,7 +1728,7 @@
       [...byPlayer.entries()]
         .sort((a,b)=> a[0].localeCompare(b[0]))
         .forEach(([name, arr])=>{
-          arr.sort((a,b)=> a.i - b.i); // file order
+          arr.sort((a,b)=> a.i - b.i);
           const lines = arr.map(x => x.line);
           if (lines.length) chunks.push(name + '\n' + lines.join('\n'));
         });
