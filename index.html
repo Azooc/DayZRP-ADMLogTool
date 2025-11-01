@@ -772,7 +772,9 @@
     const RAID_CODE_RE   = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[BaseRaiding\]\s+([^()]+)\s+\(<\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*>\)\s+Damaged\s+"player\s+"([^"]+)"[^"]*"\s+by\s+([\d.\-]+)\s+health points\.\s*Reason:\s*(.+)$/i;
     const MARKET_BUY_RE  = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[Market\]\s+Player\s+"([^"]+)"\s+\(id=[^)]+\)\s+has bought\s+([^\s]+)\s+x\d+\s+\([^)]+\)\s+from the trader\s+"([^"]+)"\s+in market zone\s+"([^"]+)"\s+\(pos=<\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*>\)\s+for a price of\s+([\d.\-]+)\./i;
     const MARKET_SELL_RE = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[Market\]\s+Player\s+"([^"]+)"\s+\(id=[^)]+\)\s+has sold\s+([^\s]+)\s+x\d+\s+\([^)]+\)\s+at the trader\s+"([^"]+)"\s+in market zone\s+"([^"]+)"\s+\(pos=<\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*,\s*([\d.\-]+)\s*>\)\s+and got\s+([\d.\-]+)\./i;
-    
+    const UNCON_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\s*\(id=\d{17}\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*is\s+unconscious\s*$/;
+    const CON_RE   = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\s*\(id=\d{17}\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*regained\s+consciousness\s*$/;
+
     function lineTimeMs(line){
       const m = line.match(/^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)/);
       return m ? m[1] : null;
@@ -1491,85 +1493,104 @@
         : '<em>No matching position events for the selected players and timeframe.</em>';
     }   
 
-    function renderHitLogs(){
-      const outEl = document.getElementById('logs-hit');
-      const sel = new Set(getSelectedPlayers());
-      if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
-      if (!window._rawLines) { outEl.innerHTML = '<em>No data yet.</em>'; return; }
-    
-      const start = document.getElementById('startTime').value || '00:00:00';
-      const end   = document.getElementById('endTime').value   || '23:59:59';
-      const exSec = extraWindowSecs();
-      const s0 = timeToSec(start) - exSec;
-      const e0 = timeToSec(end)   + exSec;
-    
-      const chronological =
-        document.getElementById('chkChronologicalHK')?.checked === true ||
-        document.getElementById('chkChronoHK')?.checked === true;
-      const ignoreNonPVP = document.getElementById('chkIgnoreNonPVP')?.checked === true;
-    
-      if (chronological) {
-        const allLines = [];
-        for (let i = 0; i < window._rawLines.length; i++) {
-          const raw = window._rawLines[i];
-    
-          const m = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
-          if (!m) continue;
-    
-          if (ignoreNonPVP && !raw.includes('hit by Player')) continue;
-    
-          const tStr = lineTime(raw);
-          if (!tStr) continue;
-          const t = timeToSec(tStr);
-          if (!inWindowSec(t, s0, e0)) continue;
-    
-          const victimName = m[2];
-          if (!sel.has(victimName)) continue;
-    
-          allLines.push({ i, line: stripIds(raw) });
-        }
-    
-        allLines.sort((a,b)=> a.i - b.i);
-        outEl.innerHTML = allLines.length
-          ? `<pre class="mono">${allLines.map(x=>x.line).join('\n')}</pre>`
-          : '<em>No matching hit logs in the selected window.</em>';
-        return;
-      }
-    
-      const byPlayer = new Map();
+   function renderHitLogs(){
+    const outEl = document.getElementById('logs-hit');
+    const sel = new Set(getSelectedPlayers());
+    if (!sel.size) { outEl.innerHTML = '<em>No players selected.</em>'; return; }
+    if (!window._rawLines) { outEl.innerHTML = '<em>No data yet.</em>'; return; }
+  
+    const start = document.getElementById('startTime').value || '00:00:00';
+    const end   = document.getElementById('endTime').value   || '23:59:59';
+    const exSec = extraWindowSecs();
+    const s0 = timeToSec(start) - exSec;
+    const e0 = timeToSec(end)   + exSec;
+  
+    const chronological =
+      document.getElementById('chkChronologicalHK')?.checked === true ||
+      document.getElementById('chkChronoHK')?.checked === true;
+    const ignoreNonPVP = document.getElementById('chkIgnoreNonPVP')?.checked === true;
+  
+    function lineInWindow(raw){
+      const tStr = lineTime(raw);
+      if (!tStr) return null;
+      const t = timeToSec(tStr);
+      return inWindowSec(t, s0, e0) ? t : null;
+    }
+  
+    if (chronological) {
+      const allLines = [];
       for (let i = 0; i < window._rawLines.length; i++) {
         const raw = window._rawLines[i];
-    
-        const m = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
-        if (!m) continue;
+  
+        const mHit  = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
+        const mUn   = raw.match(UNCON_RE);
+        const mCon  = raw.match(CON_RE);
+  
+        if (!mHit && !mUn && !mCon) continue;
+  
+        if (lineInWindow(raw) === null) continue;
+  
+        if (mHit) {
+          if (ignoreNonPVP && !raw.includes('hit by Player')) continue;
+          const victimName = mHit[2];
+          if (!sel.has(victimName)) continue;
+        } else if (mUn || mCon) {
+          const name = (mUn || mCon)[2];
+          if (!sel.has(name)) continue;
+        }
+  
+        allLines.push({ i, line: stripIds(raw) });
+      }
+  
+      allLines.sort((a,b)=> a.i - b.i);
+      outEl.innerHTML = allLines.length
+        ? `<pre class="mono">${allLines.map(x=>x.line).join('\n')}</pre>`
+        : '<em>No matching hit/uncon/con logs in the selected window.</em>';
+      return;
+    }
+  
+    const byPlayer = new Map();
+  
+    for (let i = 0; i < window._rawLines.length; i++) {
+      const raw = window._rawLines[i];
+  
+      const mHit = raw.match(HIT_PVP_RE) || raw.match(HIT_PVP_MELEE_RE) || raw.match(HIT_OTHER_RE);
+      const mUn  = raw.match(UNCON_RE);
+      const mCon = raw.match(CON_RE);
+  
+      if (!mHit && !mUn && !mCon) continue;
+      if (lineInWindow(raw) === null) continue;
+  
+      if (mHit) {
         if (ignoreNonPVP && !raw.includes('hit by Player')) continue;
-    
-        const tStr = lineTime(raw);
-        if (!tStr) continue;
-        const t = timeToSec(tStr);
-        if (!inWindowSec(t, s0, e0)) continue;
-    
-        const victimName = m[2];
+        const victimName = mHit[2];
         if (!sel.has(victimName)) continue;
-    
         const cleaned = stripIds(raw);
         if (!byPlayer.has(victimName)) byPlayer.set(victimName, []);
         byPlayer.get(victimName).push({ i, line: cleaned });
+        continue;
       }
-    
-      const chunks = [];
-      [...byPlayer.entries()]
-        .sort((a,b)=> a[0].localeCompare(b[0]))
-        .forEach(([name, arr])=>{
-          arr.sort((a,b)=> a.i - b.i);
-          const lines = arr.map(x => x.line);
-          if (lines.length) chunks.push(name + '\n' + lines.join('\n'));
-        });
-    
-      outEl.innerHTML = chunks.length
-        ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
-        : '<em>No matching hit logs in the selected window.</em>';
+  
+      const name = (mUn || mCon)[2];
+      if (!sel.has(name)) continue;
+      const cleaned = stripIds(raw);
+      if (!byPlayer.has(name)) byPlayer.set(name, []);
+      byPlayer.get(name).push({ i, line: cleaned });
     }
+  
+    const chunks = [];
+    [...byPlayer.entries()]
+      .sort((a,b)=> a[0].localeCompare(b[0]))
+      .forEach(([name, arr])=>{
+        arr.sort((a,b)=> a.i - b.i);
+        const lines = arr.map(x => x.line);
+        if (lines.length) chunks.push(name + '\n' + lines.join('\n'));
+      });
+  
+    outEl.innerHTML = chunks.length
+      ? `<pre class="mono">${chunks.join('\n\n')}</pre>`
+      : '<em>No matching hit/uncon/con logs in the selected window.</em>';
+  }
 
     function renderKillLogs(){
       const outEl = document.getElementById('logs-kill');
