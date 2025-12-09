@@ -1036,7 +1036,13 @@
     function timeToSec(t){ const [h,m,s]=t.split(':').map(Number); return h*3600+m*60+s; }
     function secToTime(sec){ const s=((sec%86400)+86400)%86400; const h=String(Math.floor(s/3600)).padStart(2,'0'); const m=String(Math.floor((s%3600)/60)).padStart(2,'0'); const ss=String(s%60).padStart(2,'0'); return `${h}:${m}:${ss}`; }
     function stripIds(line){
-      return line.replace(/\(id=[^)]+\)/g, '').replace(/\s{2,}/g, ' ');
+      return line
+        .replace(
+          /\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)/g,
+          (m, _id, x, y, z) => `(pos=<${x}, ${y}, ${z}>)`
+        )
+        .replace(/\(id=[^)]+\)/g, '')
+        .replace(/\s{2,}/g, ' ');
     }
     
     function lineTime(line){
