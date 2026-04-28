@@ -758,9 +758,9 @@
     const HIT_OTHER_RE  = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"(?:\s*\(DEAD\))?\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*\[HP:\s*([^\]]+)\]\s*hit by\s*([^]+?)\s*(?:into\s*([^(]+)\(\-?\d+\)\s*)?(?:for\s*([\d.]+)\s*damage\s*)?(?:\(([^)]+)\)\s*)?(?:with\s*([^]+?))?(?:\s*from\s*([\d.]+)\s*meters\s*)?$/;
     const KILL_PVP_RE   = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\s*\(DEAD\)\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*killed by\s*Player\s+"([^"]+)"\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*with\s*([^]+?)\s*$/;
     const HIT_PVP_MELEE_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"(?:\s*\(DEAD\))?\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*\[HP:\s*([^\]]+)\]\s*hit by Player\s+"([^"]+)"\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*into\s*([^(]+)\(\d+\)\s*for\s*([\d.]+)\s*damage\s*\(([^)]+)\)\s*$/;
+    const CHAT_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*\[Chat\s*-\s*[^\]]+\]\("([^"]+)"\(id=[^)]+\)\):\s*(.*)$/;
     const CONNECT_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\s*\(id=[^)]+\)\s*is connected\s*$/;
     const DISCONNECT_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\s*\(id=[^)]+\)\s*has been disconnected\s*$/;
-    const DISCONNECT_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\(id=[^)]+\)\s*has been disconnected\s*$/;
     const BUILD_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*Built\s+(.+)$/i;
     const PLACE_RE = /^(\d{2}:\d{2}:\d{2})\s*\|\s*Player\s+"([^"]+)"\s*\(id=(\d{17})\s+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*(-?[\d.]+)\s*>\)\s*placed\s+(.+)$/i;
     const VEH_ENTER_RE   = /^(\d{2}:\d{2}:\d{2}(?:\.\d{3})?)\s+\[VehicleEnter\]\s+Player\s+"([^"]+)"[^(]*entered vehicle\s+([^()]+)\s+\(id=[^)]+pos=<\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*>\)\s+as\s+(\w+)/;
